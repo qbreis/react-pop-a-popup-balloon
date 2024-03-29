@@ -21,6 +21,7 @@ export default function Balloon({ color }) {
         <div className="balloon-cell">
             <div className="balloon-wrapper">
                 <div 
+                    className="balloon"
                     style={{ color: color }} 
                     >
                     <svg
@@ -76,9 +77,6 @@ svg {
 .balloon {
     max-width: 300px;
     transition: all .35s;
-    translate: 0% 100%;
-    transform-origin: center;
-    opacity: 0;
     margin: 0 auto;
 }
 
