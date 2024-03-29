@@ -151,6 +151,15 @@ I will add to `src/components/Balloon/Balloon.css`:
 
 And then I add class `balloon--moving` to the balloon div in `src/components/Balloon/Balloon.jsx`:
 
+```js
+<div 
+    className="balloon"
+    style={{ color: color }} 
+    >
+```
+
+
+
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
