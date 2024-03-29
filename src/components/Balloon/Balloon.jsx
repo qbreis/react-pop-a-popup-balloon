@@ -12,6 +12,7 @@ export default function Balloon({ color }) {
         <div className="balloon-cell">
             <div className="balloon-wrapper">
                 <div 
+                    className="balloon"
                     style={{ color: color }} 
                     >
                     <svg
