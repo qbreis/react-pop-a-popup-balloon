@@ -33,8 +33,8 @@ And finally, I want to adapt README file, which I can as well check online: [REA
 Time to do first [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/):
 
 ```bash
-add .
-commit -m 'chore: Initial commit with package.json, chapter #1 - setup, readme and license documentation-related files'
+git add .
+git commit -m 'chore: Initial commit with package.json, chapter #1 - setup, readme and license documentation-related files'
 ```
 
 ## Reference links
