@@ -28,7 +28,7 @@ Following, I want to keep all the steps in the development process in separate c
 
 Now I create new `documentation/walkthrough/chapter-01-setup.md`, which I can check online: [Chapter #1 - Setup](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/documentation/walkthrough/chapter-01-setup.md).
 
-And finally, I want to adapt README file, which I can as well check online: [README for the main repo](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/documentation/walkthrough/README.md) and a [MIT License](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/LICENSE) for this project.
+And finally, I want to adapt README file, which I can as well check online: [README for the main repo](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/README.md) and a [MIT License](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/LICENSE) for this project.
 
 I create new branch and do first [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/):
 
