@@ -131,6 +131,28 @@ export default function App() {
 }
 ```
 
+### A Swinging Ballon
+
+I will add to `src/components/Balloon/Balloon.css`:
+
+```css
+.balloon--moving {
+    animation: balloon-moving 5s ease-in-out 1s infinite alternate;
+    transform-origin: 50% 200%;
+}
+  
+@keyframes balloon-moving {
+    25% {
+        transform: rotate(-2deg);
+    }
+    75% {
+        transform: rotate(2deg);
+    }
+}
+```
+
+And then I add class `balloon--moving` to the balloon div in `src/components/Balloon/Balloon.jsx`:
+
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
