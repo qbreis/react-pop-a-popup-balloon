@@ -1,0 +1,56 @@
+svg {
+    width: 100%;
+}
+
+.balloon {
+    max-width: 300px;
+    transition: all .35s;
+    margin: 0 auto;
+
+    translate: 0% 100%;
+    transform-origin: center;
+    opacity: 0;
+}
+
+.balloon--active {
+    opacity: 1;
+    translate: 0% 0%;
+    transform-origin: 50% 300%;
+}
+
+.balloon-cell { width: 50%;padding: 0.5em; }
+
+.balloon-wrapper {
+    position: relative;
+    padding: 3em 2em 0;
+    overflow: hidden;
+    border-radius: 1em;
+    background-color: rgba(255, 255, 255, 0.1);
+    max-height: 50vmin;
+}
+
+@media only screen and (min-width: 800px) {
+    .balloon-cell { width: 33.33%;max-width: 280px;  }
+    .balloon-wrapper { max-height: calc(50vmin - 5em); }
+}
+
+.balloon--moving {
+    animation: balloon-moving 5s ease-in-out 1s infinite alternate;
+    transform-origin: 50% 200%;
+}
+  
+@keyframes balloon-moving {
+    25% {
+        transform: rotate(-2deg);
+    }
+    75% {
+        transform: rotate(2deg);
+    }
+}
+
+.balloon--popping {
+    transform: scale(2);
+    transform-origin: 50% 20%;
+    opacity: 0;
+    transition: all .2s;
+}
