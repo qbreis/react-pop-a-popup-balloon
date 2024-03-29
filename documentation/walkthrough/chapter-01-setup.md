@@ -1,6 +1,6 @@
 # Chapter #1 - Setup
 
-In this chapter I [create a new React App](https://legacy.reactjs.org/docs/create-a-new-react-app.html) and I create one repository in my GitHub account.
+In this chapter I [create a new React App](https://legacy.reactjs.org/docs/create-a-new-react-app.html) and I create one repository in [my GitHub account](https://github.com/qbreis/).
 
 ## Create a new React App
 
@@ -36,6 +36,12 @@ Time to do first [Conventional Commit](https://www.conventionalcommits.org/en/v1
 git add .
 git commit -m 'chore: Initial commit with package.json, chapter #1 - setup, readme and license documentation-related files'
 ```
+
+## Cretae new Git repo on GitHub
+
+I go to [my GitHub account](https://github.com/qbreis/) to create a new repository, I will name it just "react-pop-a-popup-balloon" and I can choose "public" or "private".
+
+Description: "A basic React game to demonstrate simple gaming in React apps without implementing a game engine.".    
 
 ## Reference links
 
