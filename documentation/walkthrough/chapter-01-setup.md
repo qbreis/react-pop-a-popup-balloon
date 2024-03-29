@@ -30,7 +30,7 @@ Now I create new `documentation/walkthrough/chapter-01-setup.md`, which I can ch
 
 And finally, I want to adapt README file, which I can as well check online: [README for the main repo](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/documentation/walkthrough/README.md) and a [MIT License](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/LICENSE) for this project.
 
-Time to do first [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/):
+I create new branch and do first [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/):
 
 ```bash
 git add .
@@ -41,7 +41,13 @@ git commit -m 'chore: Initial commit with package.json, chapter #1 - setup, read
 
 I go to [my GitHub account](https://github.com/qbreis/) to create a new repository, I will name it just "react-pop-a-popup-balloon" and I can choose "public" or "private".
 
-Description: "A basic React game to demonstrate simple gaming in React apps without implementing a game engine.".    
+Description: "A basic React game to demonstrate simple gaming in React apps without implementing a game engine".
+
+```bash
+git remote add origin git@github.com:qbreis/react-pop-a-popup-balloon.git
+git push origin main
+git push origin main-chapter-01
+```
 
 ## Reference links
 
