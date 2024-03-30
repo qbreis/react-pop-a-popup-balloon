@@ -24,7 +24,7 @@ And then I add class `balloon--moving` to the balloon div in `src/components/Bal
 
 ```js
 <div 
-    className="balloon"
+    className="balloon balloon--moving"
     style={{ color: color }} 
     >
 ```
