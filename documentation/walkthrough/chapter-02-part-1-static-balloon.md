@@ -1,8 +1,8 @@
-## Balloon
+# Chapter #2 - Part #1 - Static Balloon
 
 In this chapter I want to create a Balloon compoenent.
 
-### A Static Ballon
+## A Static Ballon
 
 I create a balloon using SVG in `src/components/Balloon/Balloon.jsx`:
 
@@ -129,41 +129,10 @@ export default function App() {
 }
 ```
 
-### A Swinging Ballon
-
-I will add to `src/components/Balloon/Balloon.css`:
-
-```css
-.balloon--moving {
-    animation: balloon-moving 5s ease-in-out 1s infinite alternate;
-    transform-origin: 50% 200%;
-}
-  
-@keyframes balloon-moving {
-    25% {
-        transform: rotate(-2deg);
-    }
-    75% {
-        transform: rotate(2deg);
-    }
-}
-```
-
-And then I add class `balloon--moving` to the balloon div in `src/components/Balloon/Balloon.jsx`:
-
-```js
-<div 
-    className="balloon"
-    style={{ color: color }} 
-    >
-```
-
-
-
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
-- [Chapter #2 - Part #1 Static Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main/documentation/walkthrough/chapter-01-setup.md) - Link to this chapter.
+- [Chapter #2 - Part #1 - Static Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-02-part-1) - Link to this chapter.
 - [React Pop a Popup Balloon Chapters](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main/documentation/walkthrough) - Link to all Chapters.
 
 
