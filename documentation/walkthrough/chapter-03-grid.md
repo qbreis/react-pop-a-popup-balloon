@@ -101,3 +101,8 @@ color: var(--color-1);
 margin: 0;
 }
 ```
+
+### Toggle balloons
+
+`src/components/BalloonGrid/BalloonGrid.jsx`
+
