@@ -11,7 +11,7 @@ export default function App() {
                 */}
                 <Balloon color="#9980FA" />
                 <p>
-                    Static ballon!
+                    Click the balloon!
                 </p>
                 <a
                     className="App-link"
