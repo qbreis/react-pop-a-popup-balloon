@@ -1,4 +1,4 @@
-## Balloon
+## Chapter #2 - Part #1 - Static Balloon
 
 In this chapter I want to create a Balloon compoenent.
 
