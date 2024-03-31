@@ -50,9 +50,11 @@ export default function BalloonGrid() {
             <div className="balloon-grid">
                 {balloons}
             </div>
+            {/*
             <Button onClick={toggleBalloons}>
                 Toggle Balloon
             </Button>
+            */}
         </div>
     );
 }

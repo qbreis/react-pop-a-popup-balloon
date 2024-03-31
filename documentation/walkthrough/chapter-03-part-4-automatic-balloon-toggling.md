@@ -26,6 +26,22 @@ export default function BalloonGrid() {
     }, []); // Empty dependency array ensures this effect runs only once on mount
 
 [...]
+
+return (
+        <div className="balloon-grid-wrapper">
+            <p className="balloon-grid-caption">Click a balloon!</p>
+            <div className="balloon-grid">
+                {balloons}
+            </div>
+            {/*
+            I don't want this button anymore
+            <Button onClick={toggleBalloons}>
+                Toggle Balloon
+            </Button>
+            */}
+        </div>
+    );
+}
 ```
 
 ## Reference links
