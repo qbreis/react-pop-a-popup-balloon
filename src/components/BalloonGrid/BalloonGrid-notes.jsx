@@ -1,37 +1,67 @@
 // (2) import the React Hook useState
 import React, { useState } from 'react'; 
 import Balloon from "../Balloon/Balloon";
-import Button from "../Button/Button";
 import "./BalloonGrid.css";
 
 export default function BalloonGrid() {
 
-    // (1) Adding state variable `activeBalloons` to keep track of activation state for each balloon div
+    // (1) State to keep track of activation state of each div
     const [activeBalloons, setActiveBalloons] = useState([]);
 
-    // (4) Adding function to toggle activation state of balloon divs
-    const toggleBalloons = () => {
+    /*
+    const generateRandomBalloon = () => {
         const randomBalloonId = Math.floor(Math.random() * 6);
-
+  
         setActiveBalloons((prevActiveBalloons) => {
-
-            console.log('randomBalloonId', randomBalloonId);
-
             if (prevActiveBalloons.includes(randomBalloonId)) {
                 return prevActiveBalloons.filter(
-                    (activeId) => activeId !== randomBalloonId
+                (activeId) => activeId !== randomBalloonId
                 );
             } else {
                 return [...prevActiveBalloons, randomBalloonId];
             }
         });
-        
     };
+
+    */
+    
+
+
+
+
+
+
+
+
+    // Function to toggle activation state of all divs
+    const toggleBalloons = () => {
+        //for (let i = 0; i < 6; i++) {
+
+
+            const randomBalloonId = Math.floor(Math.random() * 6);
+    
+            setActiveBalloons((prevActiveBalloons) => {
+                if (prevActiveBalloons.includes(randomBalloonId)) {
+                    return prevActiveBalloons.filter(
+                    (activeId) => activeId !== randomBalloonId
+                    );
+                } else {
+                    return [...prevActiveBalloons, randomBalloonId];
+                }
+            });
+        //}
+
+    };
+
+
+
+
+
+
 
     const balloons = [];
 
     for (let i = 0; i < 6; i++) {
-        // (5) Adding for each balloon div the `isActive` as an attribute with corresponding state
         balloons.push(
             <Balloon
             key={i}
@@ -43,14 +73,11 @@ export default function BalloonGrid() {
 
     return (
         <div className="balloon-grid-wrapper">
-            <p className="balloon-grid-caption">Click a balloon!</p>
+            <p className="balloon-grid-caption">Grid of balloons</p>
             <div className="balloon-grid">
                 {balloons}
             </div>
-            {/* (3) Adding one button to emulate Balloon Toggling */}
-            <Button onClick={toggleBalloons}>
-                Toggle Balloon
-            </Button>
+            <button onClick={toggleBalloons}>Toggle Balloons</button>
         </div>
     );
 }

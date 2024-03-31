@@ -1,0 +1,46 @@
+:root {
+    --btn-padding: 0.75em 1em;
+    --btn-radius: 1em;
+    --btn-wide-width: 350px;
+    --btn-transition-duration: 150ms;
+    --acc-color-dark: #ffc73c;
+}
+  
+.btn {
+    display: block;
+    margin: 1em auto;
+    font-size: calc(10px + 1.5vmin);
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: var(--btn-padding);
+    border-radius: var(--btn-radius);
+    background-color: var(--acc-color);
+    color: var(--pri-color);
+    border-color: var(--acc-color);
+    border-style: solid;
+    border-width: 1px;
+    transition: background-color var(--btn-transition-duration),
+      border-color var(--btn-transition-duration),
+      box-shadow var(--btn-transition-duration) ease-in-out;
+    cursor: pointer;
+}
+  
+.btn:hover {
+    background-color: var(--acc-color-dark);
+    border-color: var(--acc-color-dark);
+}
+
+.btn:focus {
+}
+
+.btn:active {
+}
+
+.btn--wide {
+    max-width: var(--btn-wide-width);
+}
+  
+.btn--wide,
+.btn--full {
+    width: 100%;
+}

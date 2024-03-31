@@ -1,8 +1,6 @@
-## Grid
+# Chapter #3 - Part #1 - Grid Component
 
 In this chapter I want to create a Grid compoenent.
-
-### Balloon Grid component
 
 I do new `src/components/BalloonGrid/BalloonGrid.jsx`:
 
@@ -102,7 +100,9 @@ margin: 0;
 }
 ```
 
-### Toggle balloons
+## Reference links
 
-`src/components/BalloonGrid/BalloonGrid.jsx`
-
+- [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
+- [Chapter #3 - Part #1 - Grid Component](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-03-part-1) - Link to this chapter.
+- [React Pop a Popup Balloon Chapters](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main/documentation/walkthrough) - Link to all Chapters.
+>>>>>>> main-chapter-03-part-1

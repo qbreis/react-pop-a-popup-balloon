@@ -1,15 +1,18 @@
 import "./Balloon.css";
 import React, { useState, useEffect } from 'react'; 
 
-// Add isActive as a parameter
+// (1) Add isActive as a parameter
 export default function Balloon({ color, isActive }) {
 
     const [isPopped, setIsPopped] = useState(false); 
 
+    // (2) I won't need to declare state variable `isActive` anymore.
     // const [isActive, setIsActive] = useState(false);
     const isMoving = true;
 
     /*
+    (3) I won't neither need declaring a `useEffect` hook which sets up an interval to toggle the value of isActive every second.
+
     useEffect(() => {
         const activeInterval = setInterval(() => {
             setIsActive((prevIsTrue) => !prevIsTrue);
