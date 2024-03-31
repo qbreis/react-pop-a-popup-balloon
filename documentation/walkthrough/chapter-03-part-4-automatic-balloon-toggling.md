@@ -2,11 +2,13 @@
 
 In this chapter I want all Balloons toggling, appearing and disappearing, automatically on mount without any button or click interaction, every let's say one second.
 
-For this I can make use of the `useEffect` hook in ``:
+For this I can make use of the `useEffect` hook in `src/components/BalloonGrid/BalloonGrid.jsx`:
 
 ```js
 // Add useEffect React Hook
 import React, { useState, useEffect } from 'react'; 
+import Balloon from "../Balloon/Balloon";
+// import Button from "../Button/Button";
 
 [...]
 
