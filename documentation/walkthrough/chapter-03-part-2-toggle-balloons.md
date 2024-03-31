@@ -100,7 +100,7 @@ export default function BalloonGrid() {
 
 ## Helper component to render buttons
 
-After adding (Button Component)[] i update `src/components/BalloonGrid/BalloonGrid.jsx`:
+After adding (Button Component)[https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-03-part-2/src/components/Button] i update `src/components/BalloonGrid/BalloonGrid.jsx`:
 
 ```js
 [...]
@@ -111,7 +111,15 @@ After adding (Button Component)[] i update `src/components/BalloonGrid/BalloonGr
 [...]
 ```
 
+## Understanding the logic
 
+State variable `activeBalloons` is an array, each element indicating the index of the balloon being activated, starting with empty array.
+
+When I click 'Toggle Balloon' first time, `toggleBalloons` function picks `randomBalloonId`, a random number up to 6, which is the number of inactive balloons and toggles its value in `activeBalloons` array.
+
+- Let's say I click 'Toggle Balloon' and I pick as `randomBalloonId` 2, then `activeBalloons` will be `[2]`.
+- I click again 'Toggle Balloon' and let's say I pick 4, `activeBalloons` will be `[2, 4]`.
+- If next time I click 'Toggle Balloon' I pick 2, `activeBalloons` will be `[4]`, and so on.
 
 ## Reference links
 

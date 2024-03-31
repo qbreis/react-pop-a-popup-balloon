@@ -25,6 +25,8 @@ export default function BalloonGrid() {
                 return [...prevActiveBalloons, randomBalloonId];
             }
         });
+
+        console.log('activeBalloons', activeBalloons);
         
     };
 
