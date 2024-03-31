@@ -1,14 +1,17 @@
 import "./Balloon.css";
 import React, { useState, useEffect } from 'react'; 
 
-export default function Balloon({ color }) {
+// (1) Add isActive as a parameter
+export default function Balloon({ color, isActive }) {
 
-    // Declare state variable isPopped, with initial value set to false, 
-    // and function setIsPopped to update its value.
     const [isPopped, setIsPopped] = useState(false); 
 
-    const [isActive, setIsActive] = useState(false);
+    // (2) I won't need to declare state variable `isActive` anymore.
+    // const [isActive, setIsActive] = useState(false);
     const isMoving = true;
+
+    /*
+    (3) I won't neither need declaring a `useEffect` hook which sets up an interval to toggle the value of isActive every second.
 
     useEffect(() => {
         const activeInterval = setInterval(() => {
@@ -18,8 +21,8 @@ export default function Balloon({ color }) {
             clearInterval(activeInterval);
         };
     }, []);
+    */
 
-    // Add function callback to perform specific actions when a balloon is clicked
     const clickHandler = () => {
         if (!isPopped) {
             setIsPopped(true);
@@ -30,7 +33,6 @@ export default function Balloon({ color }) {
         }
     };
 
-    // Dynamically constructs a string of CSS class names based on the values of isMoving and isActive variables.
     const classNames = `
         balloon 
         ${isMoving ? 'balloon--moving' : ''} 
@@ -42,8 +44,7 @@ export default function Balloon({ color }) {
     const threadHeight = 150;
     const threadWidth = 10;
     const threadColor = '#ffffff';
-    
-    // I will add clickHandler to the parent container of the balloon element
+
     return (
         <div className="balloon-cell">
             <div className="balloon-wrapper">
