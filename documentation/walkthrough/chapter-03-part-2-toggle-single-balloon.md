@@ -124,5 +124,5 @@ When I click 'Toggle Balloon' first time, `toggleBalloons` function picks `rando
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
-- [Chapter #3 - Part #2 - Toggle Balloons](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-03-part-2) - Link to this chapter.
+- [Chapter #3 - Part #2 - Toggle Single Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-03-part-2) - Link to this chapter.
 - [React Pop a Popup Balloon Chapters](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main/documentation/walkthrough) - Link to all Chapters.
