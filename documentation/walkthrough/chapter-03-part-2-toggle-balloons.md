@@ -151,7 +151,11 @@ But with this approach I can see it has not much sense to iterate 6 times, meani
 
 Instead, I want the `toggleBalloons` function to generate a new array `randomActiveBalloons` of the same length as the number of balloons (6 in this case), where each element is either the index of a balloon if it's active (with a probability of 0.5) or `null` if it's inactive.
 
-Then, it filters out the `null` values to get the indices of active balloons. Finally, it sets the state of activeBalloons to this new array. This will effectively toggle the state of all balloons randomly on each click.
+Then, it filters out the `null` values to get the indices of active balloons.
+
+Finally, it sets the state of activeBalloons to this new array.
+
+This will effectively toggle the state of all balloons randomly on each click.
 
 ```js
 const toggleBalloons = () => {
@@ -173,6 +177,7 @@ const toggleBalloons = () => {
         return index !== null;
     });
 
+    // Finally, it sets the state of activeBalloons to this new array
     setActiveBalloons(randomActiveBalloons);
 };
 ```
