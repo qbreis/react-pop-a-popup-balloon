@@ -177,7 +177,7 @@ const toggleBalloons = () => {
         return index !== null;
     });
 
-    // Finally, it sets the state of activeBalloons to this new array
+    // Finally, it sets the state of activeBalloons to this new array randomActiveBalloons
     setActiveBalloons(randomActiveBalloons);
 };
 ```
@@ -213,6 +213,7 @@ const toggleBalloons = () => {
         return index !== null;
     });
 
+    // Finally, it sets the state of activeBalloons to this new array randomActiveBalloons
     setActiveBalloons(randomActiveBalloons);
 };
 ```
