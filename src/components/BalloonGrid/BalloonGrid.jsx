@@ -1,5 +1,5 @@
 // (2) import the React Hook useState
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import Balloon from "../Balloon/Balloon";
 import Button from "../Button/Button";
 import "./BalloonGrid.css";
@@ -11,23 +11,50 @@ export default function BalloonGrid() {
 
     // (4) Adding function to toggle activation state of balloon divs
     const toggleBalloons = () => {
-        const randomBalloonId = Math.floor(Math.random() * 6);
+        
+        // Iterating through a loop 6 times, 
+        // generating a random balloon ID in each iteration, 
+        // and toggling the state of the balloons based on these random IDs.
+        /*
+        for (let index = 0; index < 6; index++) {
+            const randomBalloonId = Math.floor(Math.random() * 6);
 
-        setActiveBalloons((prevActiveBalloons) => {
+            setActiveBalloons((prevActiveBalloons) => {
+                if (prevActiveBalloons.includes(randomBalloonId)) {
+                    return prevActiveBalloons.filter(
+                        (activeId) => activeId !== randomBalloonId
+                    );
+                } else {
+                    return [...prevActiveBalloons, randomBalloonId];
+                }
+            });
+        }
+        */
 
-            console.log('randomBalloonId', randomBalloonId);
+        /*
+        Arrow Function Syntax for brevity and conciseness (First Approach):
+        const randomActiveBalloons = Array.from({ length: 6 }, () =>
+            Math.random() < 0.5
+        ).map((isActive, index) => isActive ? index : null).filter(index => index !== null);
+        */
 
-            if (prevActiveBalloons.includes(randomBalloonId)) {
-                return prevActiveBalloons.filter(
-                    (activeId) => activeId !== randomBalloonId
-                );
-            } else {
-                return [...prevActiveBalloons, randomBalloonId];
-            }
+        // Traditional Function Syntax for each step (Second Approach):
+
+        // Create an array with 6 elements
+        const randomActiveBalloons = Array.from({ length: 6 }, function() {
+            // For each element, generate a random boolean value (true or false)
+            return Math.random() < 0.5;
+        })
+        // Map each boolean value to either the index of the balloon (if true) or null (if false)
+        .map(function(isActive, index) {
+            return isActive ? index : null;
+        })
+        // Filter out the null values, keeping only the indices of active balloons
+        .filter(function(index) {
+            return index !== null;
         });
 
-        console.log('activeBalloons', activeBalloons);
-        
+        setActiveBalloons(randomActiveBalloons);
     };
 
     const balloons = [];
