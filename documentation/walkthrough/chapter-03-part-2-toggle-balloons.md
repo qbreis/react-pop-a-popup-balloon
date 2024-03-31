@@ -194,19 +194,23 @@ const toggleBalloons = () => {
     // Create an array with 6 elements
     const randomActiveBalloons = Array.from({ length: 6 }, function() {
         // For each element, generate a random boolean value (true or false)
+        // e.g. [ false, false, true, true, true, true ]
         return Math.random() < 0.5;
     })
     // Map each boolean value to either the index of the balloon (if true) or null (if false)
+    // e.g. [ null, null, 2, 3, 4, 5 ]
     .map(function(isActive, index) {
         return isActive ? index : null;
     })
     // Filter out the null values, keeping only the indices of active balloons
+    // e.g. [ 2, 3, 4, 5 ]
     .filter(function(index) {
         return index !== null;
     });
 
     setActiveBalloons(randomActiveBalloons);
 };
+```
 
 ## Reference links
 
