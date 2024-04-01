@@ -2,8 +2,7 @@
     --btn-padding: 0.75em 1em;
     --btn-radius: 1em;
     --btn-wide-width: 350px;
-    --btn-transition-duration: 150ms;
-    --acc-color-dark: #ffc73c;
+    --btn-transition-duration: 300ms;
 }
   
 .btn {

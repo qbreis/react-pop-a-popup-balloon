@@ -1,20 +1,34 @@
 :root {
-  --background-color: #282c34;
-  --color-1: #ffffff;
-  --color-2: #61dafb;
+    --background-color: #282c34;
+    --color-1: #ffffff;
+    --color-2: #61dafb;
 
-  box-sizing: border-box;
+    --acc-color-dark: rgb(211, 167, 57);
+    --acc-color: #ffc73c;
+
+    --transition-duration: 300ms;
+
+    box-sizing: border-box;
 }
 
 *,
 *::before,
 *::after {
-box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 body {
-font-size: calc(10px + 2vmin);
-background-color: var(--background-color);
-color: var(--color-1);
-margin: 0;
+    font-size: calc(10px + 2vmin);
+    background-color: var(--background-color);
+    color: var(--color-1);
+    margin: 0;
+}
+
+a {
+    color: var(--acc-color);
+    transition: color var(--btn-transition-duration) ease-in-out;
+}
+
+a:hover {
+    color: var(--acc-color-dark);
 }
