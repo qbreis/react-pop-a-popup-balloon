@@ -1,10 +1,12 @@
-// Add useEffect React Hook
 import React, { useState, useEffect } from 'react'; 
 import Balloon from "../Balloon/Balloon";
-// import Button from "../Button/Button";
+// (1) Importing the Button component from its location.
+import Button from "../Button/Button";
 import "./BalloonGrid.css";
 
-export default function BalloonGrid() {
+export default function BalloonGrid(
+    {onStopGame} // (2) Aaccept onStopGame as a prop.
+) {
     const [activeBalloons, setActiveBalloons] = useState([]);
     
     const toggleBalloons = () => {
@@ -22,15 +24,10 @@ export default function BalloonGrid() {
     };
 
     useEffect(() => {
-        // Call toggleBalloons once when component mounts
         toggleBalloons();
-
-        // Set up interval to toggle balloons automatically
-        const intervalId = setInterval(toggleBalloons, 1000); // Change interval as needed
-
-        // Clean up interval on component unmount
+        const intervalId = setInterval(toggleBalloons, 1000);
         return () => clearInterval(intervalId);
-    }, []); // Empty dependency array ensures this effect runs only once on mount
+    }, []);
 
     const balloons = [];
 
@@ -46,15 +43,20 @@ export default function BalloonGrid() {
 
     return (
         <div className="balloon-grid-wrapper">
-            <p className="balloon-grid-caption">Click a balloon!</p>
+            <div className="game-header">
+                <p className="balloon-grid-caption">
+                    Click a balloon!
+                </p>
+                {/* (3) Button to stop the game,
+                    triggering an action from the child component (BalloonGrid)
+                    to the parent component (Game). */}
+                <Button onClick={onStopGame}>
+                    Stop
+                </Button>
+            </div>
             <div className="balloon-grid">
                 {balloons}
             </div>
-            {/*
-            <Button onClick={toggleBalloons}>
-                Toggle Balloon
-            </Button>
-            */}
         </div>
     );
 }

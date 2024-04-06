@@ -10,18 +10,20 @@ export default function Game() {
         setGameStarted(true);
     };
 
+    // Add state-changing function to stop the game
+    const stopGame = () => {
+        setGameStarted(false);
+    };
+
     return (
         <div className="game-container">
-            {/*
-            <BalloonGrid />
-            */}
-            {
-            // Conditionally render BalloonGrid or a cover screen based on gameStarted
-            }
             {
                 !gameStarted 
                 ? 
-                (<CoverScreen onStartGame={startGame} />) : ( <BalloonGrid /> )
+                (<CoverScreen onStartGame={startGame} />) 
+                : 
+                // Pass stopGame function down as a prop to the BalloonGrid component.
+                (<BalloonGrid onStopGame={stopGame} />)
             }
         </div>
     );
