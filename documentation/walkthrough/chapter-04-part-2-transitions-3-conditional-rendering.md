@@ -1,1 +1,0 @@
-For this i compare github online branch `main-chapter-04-part-2-b-1` and updates the corresponding local branch `main-chapter-04-part-2-2`.
