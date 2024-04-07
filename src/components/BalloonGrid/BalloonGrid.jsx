@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'; 
 import Balloon from "../Balloon/Balloon";
-// (1) Importing the Button component from its location.
 import Button from "../Button/Button";
 import "./BalloonGrid.css";
 
 export default function BalloonGrid(
-    {onStopGame} // (2) Aaccept onStopGame as a prop.
+    {
+        onStopGame,
+        gameStarted // (1) Aaccept gameStarted as a prop.
+    }
 ) {
     const [activeBalloons, setActiveBalloons] = useState([]);
     
@@ -42,14 +44,17 @@ export default function BalloonGrid(
     }
 
     return (
-        <div className="balloon-grid-wrapper">
+        <div className={`
+            balloon-grid-wrapper
+            ${
+                /* (2) Assign `gameStarted` as a class name (or not) depending on `gameStarted` value. */
+                gameStarted ? 'gameStarted' : ''
+            }
+            `}>
             <div className="game-header">
                 <p className="balloon-grid-caption">
                     Click a balloon!
                 </p>
-                {/* (3) Button to stop the game,
-                    triggering an action from the child component (BalloonGrid)
-                    to the parent component (Game). */}
                 <Button onClick={onStopGame}>
                     Stop
                 </Button>

@@ -1,33 +1,40 @@
 .game-container {
-    /*
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    */
     min-height: 100vh;
 }
 
 .intro {
-    background-color: rgba(255,0,0,.5); /* Transparent background for dev purpose */
+    /*background-color: rgba(255,0,0,.5); *//* Transparent background for dev purpose */
     position: absolute;
-    z-index: 1; /* Display over game display */
-    left: 0;        /* horizontal centering absolute div */
-    right: 0;       /* horizontal centering absolute div */
-    margin: 0 auto; /* horizontal centering absolute div */
-    top: 0;             /* Full screen display */
-    min-height: 100vh;  /* Full screen display */
-    display: flex;              /* Flex behavior */
-    justify-content: center;    /* Flex behavior */
-    align-items: center;        /* Flex behavior */
-    transition: all 3000ms; /* Slow transitions for dev purpose */
+    z-index: 1;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*transition: all 3000ms; *//* Slow transitions for dev purpose */
+    transition: all 300ms;
 }
 
 .intro.gameStarted {
-    top: -50vh; /* I don't want to lose sight of for dev purpose */
+    /*top: -50vh; *//* I don't want to lose sight of for dev purpose */
+    top: -100vh;
     pointer-events: none;
     opacity: 0.2; /* Avoid null opacity for dev purpose */
 }
 
 .balloon-grid-wrapper {
-    background-color: rgba(0,255,0,.5);
+    /*background-color: rgba(0, 255, 0, .5); *//* Transparent background for dev purpose */
+    /*opacity: 0.2; *//* Avoid null opacity for dev purpose */
+    opacity: 0;
+    pointer-events: none;
+    /*transition: all 3000ms; *//* Slow transitions for dev purpose */
+    transition: all 300ms;
+}
+
+.balloon-grid-wrapper.gameStarted {
+    opacity: 1;
+    pointer-events: initial;
 }
