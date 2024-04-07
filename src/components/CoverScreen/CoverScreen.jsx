@@ -1,12 +1,27 @@
 import "./CoverScreen.css";
 import Button from "../Button/Button";
 
-export default function CoverScreen({onStartGame, gameStarted}) {
+export default function CoverScreen({onStartGame, gameStarted, coverScreenTransition
+
+
+
+    ,coverScreenTopPosition
+
+
+
+
+}) {
     return (
         <div className={`
             intro
-            ${gameStarted ? 'gameStarted' : ''}
-            `}>
+            ${(
+                gameStarted
+                ||
+                // Assign `gameStarted` as a class name to `intro` (or not) depending also on `coverScreenTopPosition` value.
+                coverScreenTopPosition 
+            ) ? 'gameStarted' : ''}
+            ${coverScreenTransition ? 'coverScreenTransition' : ''}
+        `}>
             <div>
                 <h1>Pop a Balloon Game</h1>
                 <p>

@@ -1,43 +1,59 @@
-import React, { useState } from "react";
+import React, { useState
+    , useEffect, useRef ////
+ } from "react";
 import CoverScreen from '../CoverScreen/CoverScreen';
 import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import "./Game.css";
 
 export default function Game() {
     const [gameStarted, setGameStarted] = useState(false);
-    // (1) I want to add variable state `transition`, on mount set to false
-    const [transition, setTransition] = useState(false);
+    const [coverScreenTransition, setCoverScreenTransition] = useState(false);
+    // Very short life new state variable
+    const [coverScreenTopPosition, setCoverScreenTopPosition] = useState(false);
+
+    const timerRef = useRef(null);
+    useEffect(() => {
+        return () => {
+            clearTimeout(timerRef.current);
+        };
+    }, []);
 
     const startGame = () => {
         setGameStarted(true);
-        // (2) Setting variable state transition to true when click on start game
-        setTransition(true);
-
-        // (3) I want to set variable state transition to false after some msecs to give time to the transitional effect
-        const timer = setTimeout(
-            () => {
-                setTransition(false);
-            }, 
-            // Slow transitions for dev purpose
+        setCoverScreenTransition(true);
+        timerRef.current = setTimeout(() => {
+                setCoverScreenTransition(false);
+            },
             3000
         );
+        return () => clearTimeout(timerRef.current);
     };
 
     const stopGame = () => {
         setGameStarted(false);
+        // I make cover screen to appear on top position and then I will set back to false quite fast
+        setCoverScreenTopPosition(true);
+        timerRef.current = setTimeout(() => {
+            setCoverScreenTopPosition(false);
+        }, 100);
+        return () => clearTimeout(timerRef.current);
     };
 
     return (
         <div className="game-container">
-            <CoverScreen 
-                onStartGame={startGame} 
-                gameStarted={gameStarted}
+            {(coverScreenTransition || !gameStarted  ) ?
+                <CoverScreen 
+                    onStartGame={startGame} 
+                    gameStarted={gameStarted}
+                    // I want to pass down `coverScreenTopPosition` state variable as a prop to the CoverScreen component
+                    coverScreenTopPosition={coverScreenTopPosition}
             />
+            :''}
+
             <BalloonGrid 
                 onStopGame={stopGame} 
                 gameStarted={gameStarted} 
             />
-            ${/* (4) Visual variable states at all times for dev purpose */}
             <div style={{
                 position: 'fixed',
                 top: 0,
@@ -48,7 +64,9 @@ export default function Game() {
                 }}>
                 <h3>Variable states</h3>
                 gameStarted: {gameStarted.toString()}<br />
-                transition: {transition.toString()}<br />
+                coverScreenTransition: {coverScreenTransition.toString()}<br />
+                {/* */}
+                coverScreenTopPosition: {coverScreenTopPosition.toString()}<br />
             </div>
         </div>
     );
