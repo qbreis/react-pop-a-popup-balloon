@@ -88,7 +88,7 @@ export default function BalloonGrid(
 Regarding `src/components/Game/Game.jsx` I want:
 
 - (1) To show both `CoverScreen` and `BalloonGrid` in `game-container`.
-- (2) Pass state variable `gameStarted` as a class name to `CoverScreen`, I don't want to be confused here, I am not passing state variable, but depending on `gameStarted` state variable value I will pass a class name `gameStarted` or not.
+- (2) Pass state variable `gameStarted` to `CoverScreen`.
 
 ```js
 [...]
@@ -104,7 +104,7 @@ Regarding `src/components/Game/Game.jsx` I want:
     {/* (1) Show both `CoverScreen` and `BalloonGrid` in `game-container`. */}
     <CoverScreen 
         onStartGame={startGame} 
-        // (2) Pass state variable `gameStarted` as a class name
+        // (2) Pass state variable `gameStarted`
         gameStarted={gameStarted}
     />
     <BalloonGrid onStopGame={stopGame} />
@@ -115,14 +115,14 @@ Regarding `src/components/Game/Game.jsx` I want:
 In `src/components/CoverScreen/CoverScreen.jsx`:
 
 - (1) Accept `gameStarted` as a prop.
-- (2) Assign `gameStarted` as a class name to `intro` (or not) depending on `gameStarted` value.
+- (2) Assign `gameStarted` as a class name to `intro` (or not) depending on `gameStarted` value. I don't want to be confused here, I am not assigning state variable, but depending on `gameStarted` state variable value I will assign a class name `gameStarted` or not.
 - (3) Nest all `intro` div elements in a container div, thinking on parent `intro` behave as display flex.
 
 ```js
 [...]
 export default function CoverScreen({
     onStartGame, 
-    gameStarted // (1) Pass state variable `gameStarted` as a class name
+    gameStarted // (1) Pass state variable `gameStarted`
 }) {
     return (
         <div className={`
