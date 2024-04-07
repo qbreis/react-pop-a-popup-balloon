@@ -17,14 +17,21 @@ export default function Game() {
 
     return (
         <div className="game-container">
-            {
+            {/*
                 !gameStarted 
                 ? 
                 (<CoverScreen onStartGame={startGame} />) 
                 : 
                 // Pass stopGame function down as a prop to the BalloonGrid component.
                 (<BalloonGrid onStopGame={stopGame} />)
-            }
+            */}
+            {/* (1) Show both `CoverScreen` and `BalloonGrid` in `game-container`. */}
+            <CoverScreen 
+                onStartGame={startGame} 
+                // (2) Pass state variable `gameStarted` as a class name
+                gameStarted={gameStarted}
+            />
+            <BalloonGrid onStopGame={stopGame} />
         </div>
     );
 };

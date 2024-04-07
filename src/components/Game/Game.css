@@ -1,22 +1,33 @@
 .game-container {
+    /*
     display: flex;
     justify-content: center;
     align-items: center;
+    */
     min-height: 100vh;
 }
-/*
-.my-node-enter {
-    opacity: 0;
+
+.intro {
+    background-color: rgba(255,0,0,.5); /* Transparent background for dev purpose */
+    position: absolute;
+    z-index: 1; /* Display over game display */
+    left: 0;        /* horizontal centering absolute div */
+    right: 0;       /* horizontal centering absolute div */
+    margin: 0 auto; /* horizontal centering absolute div */
+    top: 0;             /* Full screen display */
+    min-height: 100vh;  /* Full screen display */
+    display: flex;              /* Flex behavior */
+    justify-content: center;    /* Flex behavior */
+    align-items: center;        /* Flex behavior */
+    transition: all 3000ms; /* Slow transitions for dev purpose */
 }
-.my-node-enter-active {
-    opacity: 1;
-    transition: opacity 200ms;
+
+.intro.gameStarted {
+    top: -50vh; /* I don't want to lose sight of for dev purpose */
+    pointer-events: none;
+    opacity: 0.2; /* Avoid null opacity for dev purpose */
 }
-.my-node-exit {
-    opacity: 1;
+
+.balloon-grid-wrapper {
+    background-color: rgba(0,255,0,.5);
 }
-.my-node-exit-active {
-    opacity: 0;
-    transition: opacity 200ms;
-}
-*/
