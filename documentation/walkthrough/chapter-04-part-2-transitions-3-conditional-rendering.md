@@ -44,24 +44,24 @@ I want to go back to my devvelopment css, so in `src/components/Game/Game.css`:
 
 And still in `src/components/Game/Game.jsx` i want:
 
-- (1) Add variable state `coverScreenTransition`, on mount set to false, to keep tracking of cover screen transition state.
-- (2) Setting variable state `coverScreenTransition` to true when click on start game.
-- (3) I want to set variable state `coverScreenTransition` to false after some msecs. to give time to the transitional effect for cover screen.
-- (4) At this point, I also want visual variable states at all times for dev purpose in same DOM.
+- (1) Add state variable `coverScreenTransition`, on mount set to false, to keep tracking of cover screen transition state.
+- (2) Setting state variable `coverScreenTransition` to true when click on start game.
+- (3) I want to set state variable `coverScreenTransition` to false after some msecs. to give time to the transitional effect for cover screen.
+- (4) At this point, I also want visual state variable at all times for dev purpose in same DOM.
 
 ```js
 [...]
 export default function Game() {
     const [gameStarted, setGameStarted] = useState(false);
-    // (1) I want to add variable state `coverScreenTransition`, on mount set to false
+    // (1) I want to add state variable `coverScreenTransition`, on mount set to false
     const [coverScreenTransition, setCoverScreenTransition] = useState(false);
 
     const startGame = () => {
         setGameStarted(true);
-        // (2) Setting variable state `coverScreenTransition` to true when click on start game
+        // (2) Setting state variable `coverScreenTransition` to true when click on start game
         setCoverScreenTransition(true);
 
-        // (3) I want to set variable state `coverScreenTransition` to false after some msecs to give time to the transitional effect
+        // (3) I want to set state variable `coverScreenTransition` to false after some msecs to give time to the transitional effect
         const timer = setTimeout(
             () => {
                 setCoverScreenTransition(false);
@@ -81,7 +81,7 @@ export default function Game() {
                 onStopGame={stopGame} 
                 gameStarted={gameStarted} 
             />
-            ${/* (4) Visual variable states at all times for dev purpose */}
+            ${/* (4) Visual state variables at all times for dev purpose */}
             <div style={{
                 position: 'fixed',
                 top: 0,
@@ -90,7 +90,7 @@ export default function Game() {
                 zIndex: 1,
                 fontSize: '0.7em'
                 }}>
-                <h3>Variable states</h3>
+                <h3>State Variables</h3>
                 gameStarted: {gameStarted.toString()}<br />
                 coverScreenTransition: {setCoverScreenTransition.toString()}<br />
             </div>
@@ -197,10 +197,10 @@ export default function Game() {
                 zIndex: 1,
                 fontSize: '0.7em'
                 }}>
-                <h3>Variable states</h3>
+                <h3>State Variables</h3>
                 gameStarted: {gameStarted.toString()}<br />
                 coverScreenTransition: {coverScreenTransition.toString()}<br />
-                {/* Add coverScreenTopPosition to variable states display view */}
+                {/* Add coverScreenTopPosition to state variables display view */}
                 coverScreenTopPosition: {coverScreenTopPosition.toString()}<br />
             </div>
 [...]
@@ -229,11 +229,236 @@ export default function CoverScreen({
         `}>
 ```
 
-chapter-04-part-2-transitions-3-conditional-rendering.md
+## Conditional Rendering for Balloon Grid Game Screen
 
-For this i compare github online branch `main-chapter-04-part-2-b-1` and updates the corresponding local branch `main-chapter-04-part-2-2`.
+I define a new class `gameScreenStartTransition` in `src/components/Game/Game.css` for `balloon-grid-wrapper` to set initial style:
 
+```css
+[...]
+.balloon-grid-wrapper {
+    background-color: rgba(0, 255, 0, .5);/* Transparent background for dev purpose */
+    opacity: 1;
+    /*pointer-events: none;*/
+    transition: all 3000ms;/* Slow transitions for dev purpose */
+    /*transition: all 300ms;*/
+}
 
+.balloon-grid-wrapper.gameScreenStartTransition {
+    opacity: 0.2;/* Avoid null opacity for dev purpose */
+}
+```
+
+And now in `src/components/Game/Game.jsx`:
+
+```js
+[...]
+export default function Game() {
+    const [gameStarted, setGameStarted] = useState(false);
+    const [coverScreenTransition, setCoverScreenTransition] = useState(false);
+    const [coverScreenTopPosition, setCoverScreenTopPosition] = useState(false);
+    // Add state variable `gameScreenStartTransition`, on mount set to false
+    const [gameScreenStartTransition, setGameScreenStartTransition] = useState(false);
+
+    const timerRef = useRef(null);
+    // Initializes a second `ref` using the `useRef` hook.
+    const secondTimerRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(timerRef.current);
+            clearTimeout(secondTimerRef.current); // Clear the second setTimeout
+        };
+    }, []);
+
+    const startGame = () => {
+        setGameStarted(true);
+        setCoverScreenTransition(true);
+        timerRef.current = setTimeout(() => {
+                setCoverScreenTransition(false);
+            },
+            3000
+        );
+        // Set state variable `gameScreenStartTransition` to true
+        setGameScreenStartTransition(true);
+        // I make game screen to appear in the DOM for first time, through this state variable, with specific styles, that is opacity close to null and then I will set back to false quite fast
+        secondTimerRef.current = setTimeout(() => {
+            setGameScreenStartTransition(false);
+        }, 100);
+        //return () => clearTimeout(timerRef.current);
+        // I want to ensure that all asynchronous tasks are properly cleaned up when the component unmounts or under certain conditions, so I clear all timeouts, including the second one.
+        return () => {
+            clearTimeout(timerRef.current);
+            clearTimeout(secondTimerRef.current);
+        };
+    };
+[...]
+    return (
+        <div className="game-container">
+[...]
+            {gameStarted ?
+                <BalloonGrid 
+                    onStopGame={stopGame} 
+                    gameStarted={gameStarted} 
+                    // I pass down `gameScreenStartTransition` state variable as a prop to the BalloonGrid component
+                    gameScreenStartTransition={gameScreenStartTransition}
+                />
+            :''}
+
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                padding: '1em',
+                backgroundColor: 'rgba(255, 255, 255, .2)',
+                zIndex: 1,
+                fontSize: '0.7em'
+                }}>
+                <h3>State Vars</h3>
+                gameStarted: {gameStarted.toString()}<br />
+                coverScreenTransition: {coverScreenTransition.toString()}<br />
+                coverScreenTopPosition: {coverScreenTopPosition.toString()}<br />
+                {/* Add gameScreenStartTransition to state variables display view */}
+                gameScreenStartTransition: {gameScreenStartTransition.toString()}<br />
+            </div>
+        </div>
+    );
+};
+```
+
+Now initially I don't see game screen because it is not in the DOM, when I click Start Game, game screen appears with opacity close to null, due to class name `gameScreenStartTransition` and it changes to full opacity at the end.
+
+But when I click Stop button, game screen disappears in a sudden and I would like it to disappear softly.
+
+To do that, in `src/components/Game/Game.jsx`:
+
+```js
+[...]
+    const stopGame = () => {
+        setGameStarted(false);
+        setCoverScreenTopPosition(true);
+        // Set state variable `gameScreenStartTransition` to true
+        setGameScreenStartTransition(true);
+        // I need to set it back to false in order to unmount game screen when transition ends
+        secondTimerRef.current = setTimeout(() => {
+                setGameScreenStartTransition(false);
+            },
+            3000
+        );
+        timerRef.current = setTimeout(() => {
+            setCoverScreenTopPosition(false);
+        }, 100);
+        //return () => clearTimeout(timerRef.current);
+        // Clear all timeouts, including the second one.
+        return () => {
+            clearTimeout(timerRef.current);
+            clearTimeout(secondTimerRef.current);
+        };
+    };
+
+    return (
+[...]
+        // Conditional rendering for game screen to unmount on state var `gameScreenStartTransition` is false
+        {(gameStarted || gameScreenStartTransition) ?
+            <BalloonGrid 
+                onStopGame={stopGame} 
+                gameStarted={gameStarted} 
+                gameScreenStartTransition={gameScreenStartTransition}
+            />
+        :''}
+[...]
+```
+
+## Removing dev purpose tricks
+
+Now I want to remove all tricks I did for dev purpose.
+
+Basically in `src/components/Game/Game.css`:
+
+```css
+.game-container {
+    min-height: 100vh;
+}
+
+.intro {
+    /*background-color: rgba(255,0,0,.5); *//* Transparent background for dev purpose */
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*transition: all 3000ms; *//* Slow transitions for dev purpose */
+    transition: all 300ms;
+}
+
+.intro.gameStarted {
+    /*top: -50vh; *//* I don't want to lose sight of for dev purpose */
+    top: -100vh;
+    pointer-events: none;
+    /*opacity: 0.2;*//* Avoid null opacity for dev purpose */
+    opacity: 0;
+}
+
+.balloon-grid-wrapper {
+    background-color: rgba(0, 255, 0, .5);/* Transparent background for dev purpose */
+    opacity: 1;
+    /*pointer-events: none;*/
+    /*transition: all 3000ms; *//* Slow transitions for dev purpose */
+    transition: all 300ms;
+}
+
+.balloon-grid-wrapper.gameScreenStartTransition {
+    /*opacity: 0.2;*//* Avoid null opacity for dev purpose */
+    opacity: 0;
+}
+```
+
+And finally in `src/components/Game/Game.jsx` set timers to 300 msecs.:
+
+```js
+[...]
+    const startGame = () => {
+        setGameStarted(true);
+        setCoverScreenTransition(true);
+        timerRef.current = setTimeout(() => {
+                setCoverScreenTransition(false);
+            },
+            // 3000
+            300
+        );
+[...]
+    const stopGame = () => {
+        setGameStarted(false);
+        setCoverScreenTopPosition(true);
+        setGameScreenStartTransition(true);
+        secondTimerRef.current = setTimeout(() => {
+                setGameScreenStartTransition(false);
+            },
+            // 3000
+            300
+        );
+[...]
+            {/*
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                padding: '1em',
+                backgroundColor: 'rgba(255, 255, 255, .2)',
+                zIndex: 1,
+                fontSize: '0.7em'
+                }}>
+                <h3>State Vars</h3>
+                gameStarted: {gameStarted.toString()}<br />
+                coverScreenTransition: {coverScreenTransition.toString()}<br />
+                coverScreenTopPosition: {coverScreenTopPosition.toString()}<br />
+                gameScreenStartTransition: {gameScreenStartTransition.toString()}<br />
+            </div>
+            */}
+[...]
+```
 
 ## Reference links
 

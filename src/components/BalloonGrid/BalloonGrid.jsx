@@ -6,7 +6,18 @@ import "./BalloonGrid.css";
 export default function BalloonGrid(
     {
         onStopGame,
-        gameStarted // (1) Aaccept gameStarted as a prop.
+        gameStarted ,
+
+
+
+
+        gameScreenStartTransition
+
+
+
+
+
+
     }
 ) {
     const [activeBalloons, setActiveBalloons] = useState([]);
@@ -46,10 +57,18 @@ export default function BalloonGrid(
     return (
         <div className={`
             balloon-grid-wrapper
-            ${
-                /* (2) Assign `gameStarted` as a class name (or not) depending on `gameStarted` value. */
-                gameStarted ? 'gameStarted' : ''
-            }
+            ${gameStarted ? 'gameStarted' : ''}
+
+
+
+
+
+            ${gameScreenStartTransition ? 'gameScreenStartTransition' : ''}
+
+
+
+
+
             `}>
             <div className="game-header">
                 <p className="balloon-grid-caption">
