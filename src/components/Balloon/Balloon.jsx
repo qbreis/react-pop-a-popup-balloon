@@ -1,5 +1,5 @@
 import "./Balloon.css";
-import React, { useState, useEffect } from 'react'; 
+import React, { useState } from 'react'; 
 
 // (1) Add isActive as a parameter
 export default function Balloon({ color, isActive }) {
