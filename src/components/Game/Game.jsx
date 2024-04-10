@@ -19,14 +19,27 @@ export default function Game() {
         };
     }, []);
 
+    
+    // I can use either arrow function syntax or regular function syntax to define a function and assign it to a constant variable in JavaScript. Both approaches are valid.
+    /* 
+    const handleGameToggle = ( // this is arrow function syntax
+        start
+    ) => { 
+    */
+    // function manages the game start and stop logic.
+    const handleGameToggle = function( // I will use regular function syntax
+        start // function takes one parameter named start which can be true or false
+    ) {
+
+    }
+
     const startGame = () => {
         setGameStarted(true);
         setCoverScreenTransition(true);
         timerRef.current = setTimeout(() => {
                 setCoverScreenTransition(false);
             },
-            // 3000
-            300
+            3000
         );
         setGameScreenStartTransition(true);
         secondTimerRef.current = setTimeout(() => {
@@ -45,8 +58,7 @@ export default function Game() {
         secondTimerRef.current = setTimeout(() => {
                 setGameScreenStartTransition(false);
             },
-            // 3000
-            300
+            3000
         );
         timerRef.current = setTimeout(() => {
             setCoverScreenTopPosition(false);
@@ -74,7 +86,7 @@ export default function Game() {
                     gameScreenStartTransition={gameScreenStartTransition}
                 />
             :''}
-            {/*
+
             <div style={{
                 position: 'fixed',
                 top: 0,
@@ -87,9 +99,9 @@ export default function Game() {
                 gameStarted: {gameStarted.toString()}<br />
                 coverScreenTransition: {coverScreenTransition.toString()}<br />
                 coverScreenTopPosition: {coverScreenTopPosition.toString()}<br />
+                {/* Add gameScreenStartTransition to state variables display view */}
                 gameScreenStartTransition: {gameScreenStartTransition.toString()}<br />
             </div>
-            */}
         </div>
     );
 };
