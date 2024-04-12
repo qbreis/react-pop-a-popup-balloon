@@ -4,92 +4,89 @@ import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import "./Game.css";
 
 export default function Game() {
-    const [gameStarted, setGameStarted] = useState(false);
-    const [coverScreenTransition, setCoverScreenTransition] = useState(false);
-    const [coverScreenTopPosition, setCoverScreenTopPosition] = useState(false);
-    const [gameScreenStartTransition, setGameScreenStartTransition] = useState(false);
+    const [gameState, setGameState] = useState({
+        gameStarted: false,
+        coverScreenTransition: false,
+        coverScreenTopPosition: false,
+        gameScreenStartTransition: false
+    });
 
     const timerRef = useRef(null);
     const secondTimerRef = useRef(null);
 
-    useEffect(() => {
-        return () => {
-            clearTimeout(timerRef.current);
-            clearTimeout(secondTimerRef.current);
+    useEffect(function() {
+        const timerRefValue = timerRef.current;
+        const secondTimerRefValue = secondTimerRef.current;
+        
+        return function() {
+            clearTimeout(timerRefValue);
+            clearTimeout(secondTimerRefValue);
         };
     }, []);
 
-    const startGame = () => {
-        setGameStarted(true);
-        setCoverScreenTransition(true);
-        timerRef.current = setTimeout(() => {
-                setCoverScreenTransition(false);
-            },
-            // 3000
-            300
-        );
-        setGameScreenStartTransition(true);
-        secondTimerRef.current = setTimeout(() => {
-            setGameScreenStartTransition(false);
-        }, 100);
-        return () => {
-            clearTimeout(timerRef.current);
-            clearTimeout(secondTimerRef.current);
-        };
-    };
+    const handleGameToggle = function(start) {
+        setGameState(function(prevState) {
+            return {
+                ...prevState,
+                gameStarted: start,
+                coverScreenTransition: start,
+                gameScreenStartTransition: true,
+                coverScreenTopPosition: !start
+            };
+        });
 
-    const stopGame = () => {
-        setGameStarted(false);
-        setCoverScreenTopPosition(true);
-        setGameScreenStartTransition(true);
-        secondTimerRef.current = setTimeout(() => {
-                setGameScreenStartTransition(false);
+        timerRef.current = setTimeout(
+            function() {
+                setGameState(function(prevState) {
+                    return {
+                        ...prevState,
+                        coverScreenTransition: false,
+                        gameScreenStartTransition: false
+                    };
+                });
             },
-            // 3000
-            300
+            3000
         );
-        timerRef.current = setTimeout(() => {
-            setCoverScreenTopPosition(false);
-        }, 100);
-        return () => {
-            clearTimeout(timerRef.current);
-            clearTimeout(secondTimerRef.current);
-        };
-    };
+
+        timerRef.current = setTimeout(
+            function() {
+                if (start) {
+                    setGameState(function(prevState) {
+                        return {
+                            ...prevState,
+                            gameScreenStartTransition: false,
+                        }
+                    });
+
+                } else {
+                    setGameState(function(prevState) {
+                        return {
+                            ...prevState,
+                            coverScreenTopPosition: false,
+                        }
+                    });
+                }
+            }, 100
+        );
+    }
 
     return (
         <div className="game-container">
-            {(coverScreenTransition || !gameStarted  ) ?
+            {(gameState.coverScreenTransition || !gameState.gameStarted) ?
                 <CoverScreen 
-                    onStartGame={startGame} 
-                    gameStarted={gameStarted}
-                    coverScreenTopPosition={coverScreenTopPosition}
+                    onStartGame={function() {handleGameToggle(true)}} 
+                    gameStarted={gameState.gameStarted}
+                    coverScreenTopPosition={gameState.coverScreenTopPosition}
             />
             :''}
 
-            {(gameStarted || gameScreenStartTransition ) ?
+            {(gameState.gameStarted || gameState.gameScreenStartTransition) ?
                 <BalloonGrid 
-                    onStopGame={stopGame} 
-                    gameStarted={gameStarted} 
-                    gameScreenStartTransition={gameScreenStartTransition}
+                    onStopGame={function() {handleGameToggle(false)}} 
+                    gameStarted={gameState.gameStarted} 
+                    gameScreenStartTransition={gameState.gameScreenStartTransition}
                 />
             :''}
-            {/*
-            <div style={{
-                position: 'fixed',
-                top: 0,
-                padding: '1em',
-                backgroundColor: 'rgba(255, 255, 255, .2)',
-                zIndex: 1,
-                fontSize: '0.7em'
-                }}>
-                <h3>State Vars</h3>
-                gameStarted: {gameStarted.toString()}<br />
-                coverScreenTransition: {coverScreenTransition.toString()}<br />
-                coverScreenTopPosition: {coverScreenTopPosition.toString()}<br />
-                gameScreenStartTransition: {gameScreenStartTransition.toString()}<br />
-            </div>
-            */}
         </div>
     );
 };
