@@ -1,5 +1,6 @@
 import "./CoverScreen.css";
 import Button from "../Button/Button";
+import Balloon from "../Balloon/Balloon";
 
 export default function CoverScreen({onStartGame, gameStarted, coverScreenTransition
 
@@ -22,7 +23,8 @@ export default function CoverScreen({onStartGame, gameStarted, coverScreenTransi
             ) ? 'gameStarted' : ''}
             ${coverScreenTransition ? 'coverScreenTransition' : ''}
         `}>
-            <div>
+            {/* Add inline CSS directly to the HTML element to set z-index property */}
+            <div style={{zIndex: 1}}>
                 <h1>Pop a Balloon Game</h1>
                 <p>
                     A basic balloon game built with React.
@@ -40,6 +42,8 @@ export default function CoverScreen({onStartGame, gameStarted, coverScreenTransi
                     .
                 </p>
             </div>
+            {/* Add Balloon component */}
+            <Balloon color="#9980FA" isActive="true" />
         </div>
     );
 }
