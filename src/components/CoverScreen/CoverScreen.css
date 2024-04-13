@@ -2,3 +2,34 @@
     text-align: center;
     padding: 1em;
 }
+
+.intro .balloon-cell {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.intro .balloon-wrapper {
+    max-height: 100vh;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+}
+
+.intro .balloon-wrapper .balloon {
+    opacity: 0.7;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1em;
+}
+
+@media only screen and (min-width: 1400px) {
+    .intro .balloon-wrapper .balloon{
+        max-width: 400px;
+    }
+}
