@@ -58,7 +58,7 @@ export default function Game() {
             3000
         );
 
-        timerRef.current = setTimeout(
+        secondTimerRef.current = setTimeout(
             function() {
                 if (start) {
                     setGameScreenStartTransition(false);
