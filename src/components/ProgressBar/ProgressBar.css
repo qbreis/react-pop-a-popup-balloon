@@ -1,0 +1,13 @@
+.progress-bar {
+    background-color: rgba(0, 0, 0, .3);
+    font-size: 0.7em;
+    padding: 0.1em 0.5em;
+    position: fixed;
+    top: 0;left: 0;width: 100%;
+}
+.progress-bar .remaining-time {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 0, .8);
+}

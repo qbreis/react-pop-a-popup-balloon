@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'; 
 import Balloon from "../Balloon/Balloon";
 import Button from "../Button/Button";
-
-// Import GameScore component
 import GameScore from "../GameScore/GameScore";
+
+// Import ProgressBar component
+import ProgressBar from "../ProgressBar/ProgressBar";
 
 import "./BalloonGrid.css";
 
@@ -16,9 +17,7 @@ export default function BalloonGrid(
         numberOfBalloons,
         timeRemaining,
 
-        // Pass gameTimeDelay parameter as prop
         gameTimeDelay
-
     }
 ) {
     const [activeBalloons, setActiveBalloons] = useState([]);
@@ -66,7 +65,9 @@ export default function BalloonGrid(
                     Click a balloon!
                 </p>
 
-                {/* New GameScore component */}
+                {/* New ProgressBar component */}
+                <ProgressBar time={timeRemaining} delay={gameTimeDelay} />
+
                 <GameScore time={timeRemaining} delay={gameTimeDelay} />
 
                 <Button onClick={onStopGame}>

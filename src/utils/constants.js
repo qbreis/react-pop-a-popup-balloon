@@ -1,5 +1,5 @@
 const constants = {
-    gameDuration: 10, // seconds
+    gameDuration: 60, // seconds
     gameCells: 6,
     gameTimeDelay: 10 // milliseconds
 };
