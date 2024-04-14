@@ -2,7 +2,11 @@ import calculateSeconds from "../../utils/calculateSeconds";
 import "./ProgressBar.css";
 
 export default function ProgressBar({time, delay, gameDuration}) {
-    const percentageRemaining = (time / gameDuration) * 100;
+    //const percentageRemaining = (time / gameDuration) * 100;
+
+    // To display the percentage only at intervals of 10 (i.e., 10%, 20%, 30%, etc.), I can modify the percentageRemaining calculation to round it to the nearest multiple of 10.
+    const percentageRemaining = Math.round((time / gameDuration) * 100 / 10) * 10; // Round to the nearest multiple of 10
+
     const className = getClassName(percentageRemaining);
 
     return (
