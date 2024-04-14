@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import Balloon from "../Balloon/Balloon";
 import Button from "../Button/Button";
-import GameScore from "../GameScore/GameScore";
+// import GameScore from "../GameScore/GameScore";
 
 // Import ProgressBar component
 import ProgressBar from "../ProgressBar/ProgressBar";
@@ -17,7 +17,9 @@ export default function BalloonGrid(
         numberOfBalloons,
         timeRemaining,
 
-        gameTimeDelay
+        gameTimeDelay,
+        // I will need gameDuration to calculate remaining time percentage
+        gameDuration
     }
 ) {
     const [activeBalloons, setActiveBalloons] = useState([]);
@@ -66,9 +68,9 @@ export default function BalloonGrid(
                 </p>
 
                 {/* New ProgressBar component */}
-                <ProgressBar time={timeRemaining} delay={gameTimeDelay} />
+                <ProgressBar time={timeRemaining} delay={gameTimeDelay} gameDuration={gameDuration} />
 
-                <GameScore time={timeRemaining} delay={gameTimeDelay} />
+                {/*<GameScore time={timeRemaining} delay={gameTimeDelay} />*/}
 
                 <Button onClick={onStopGame}>
                     Stop

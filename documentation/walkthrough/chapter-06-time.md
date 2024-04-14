@@ -350,3 +350,107 @@ import React, { useState, useEffect, useRef,
 ```
 
 Now when I click "Start Game" time starts decreasing and when reaching `0` it returns to cover screen.
+
+## Adding progress bar for remaining time
+
+I do new in `ProgressBar` component in `src/components/ProgressBar/ProgressBar.js`:
+
+```js
+import calculateSeconds from "../../utils/calculateSeconds";
+import "./ProgressBar.css";
+
+export default function ProgressBar({time, delay, gameDuration}) {
+    const percentageRemaining = (time / gameDuration) * 100;
+    const className = getClassName(percentageRemaining);
+
+    return (
+        <div className={className}>
+            <div className="remaining-time" style={{
+                width: `calc( 
+                    (100% * ${time})
+                    /
+                    ${gameDuration}
+                )`
+            }}></div>
+            <div className="remaining-time-in-seconds">
+                {
+                calculateSeconds(time, delay)
+                }s ({percentageRemaining.toFixed(0)}%) remaining 
+            </div>
+            
+        </div>
+    );
+};
+
+function getClassName(percentageRemaining) {
+    let className = "progress-bar";
+    if (percentageRemaining < 50) {
+        className += " less-than-half";
+    }
+    if (percentageRemaining < 20) {
+        className += " less-than-20-percent";
+    }
+    if (percentageRemaining < 10) {
+        className += " less-than-10-percent";
+    }
+    return className;
+}
+```
+
+I also want to do new [src/components/ProgressBar/ProgressBar.css](https://github.com/qbreis/react-pop-a-popup-balloon/blob/main-chapter-06/src/components/ProgressBar/ProgressBar.css).
+
+In `src/components/BalloonGrid/BalloonGrid.jsx`:
+
+```js
+import React, { useState, useEffect } from 'react'; 
+import Balloon from "../Balloon/Balloon";
+import Button from "../Button/Button";
+// import GameScore from "../GameScore/GameScore";
+
+// Import ProgressBar component
+import ProgressBar from "../ProgressBar/ProgressBar";
+
+import "./BalloonGrid.css";
+
+export default function BalloonGrid(
+    {
+        onStopGame,
+        gameStarted ,
+        gameScreenStartTransition,
+        numberOfBalloons,
+        timeRemaining,
+        gameTimeDelay,
+
+        // I will need gameDuration to calculate remaining time percentage in new ProgressBar component
+        gameDuration
+    }
+) {
+[...]
+{/* New ProgressBar component */}
+<ProgressBar time={timeRemaining} delay={gameTimeDelay} gameDuration={gameDuration} />
+
+{/*<GameScore time={timeRemaining} delay={gameTimeDelay} />*/}
+```
+
+And finally in `src/components/Game/Game.jsx`:
+
+```js
+[...]
+<BalloonGrid 
+    onStopGame={function() {handleGameToggle(false)}} 
+    gameStarted={gameState.gameStarted} 
+    gameScreenStartTransition={gameState.gameScreenStartTransition}
+    numberOfBalloons={numberOfBalloons}
+    timeRemaining={gameState.timeRemaining}
+    gameTimeDelay={Constants.gameTimeDelay}
+    // I will need gameDuration to calculate remaining time percentage
+    gameDuration={gameDuration}
+/>
+[...]
+```
+
+## Reference links
+
+- [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
+- [Chapter #6 - Adding Time](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-06) - Link to this chapter.
+- [React Pop a Popup Balloon Chapters](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main/documentation/walkthrough) - Link to all Chapters.

@@ -116,18 +116,17 @@ export default function Game({numberOfBalloons,gameDuration}) {
                     onStopGame={function() {handleGameToggle(false)}} 
                     gameStarted={gameState.gameStarted} 
                     gameScreenStartTransition={gameState.gameScreenStartTransition}
-
                     numberOfBalloons={numberOfBalloons}
                     timeRemaining={gameState.timeRemaining}
-
-                    // Add gameTimeDelay
                     gameTimeDelay={Constants.gameTimeDelay}
+                    // I will need gameDuration to calculate remaining time percentage
+                    gameDuration={gameDuration}
                 />
             :''}
 
             <div style={{
                 position: 'fixed',
-                top: 0,
+                bottom: 0,
                 padding: '1em',
                 backgroundColor: 'rgba(255, 255, 255, .8)',
                 zIndex: 1,
