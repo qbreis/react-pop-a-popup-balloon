@@ -1,0 +1,31 @@
+.progress-bar {
+    background-color: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    z-index: 2;
+}
+.progress-bar .remaining-time {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.progress-bar.less-than-half .remaining-time {
+    background-color: var(--acc-color);
+}
+.progress-bar.less-than-20-percent .remaining-time {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+.remaining-time-in-seconds {
+    font-size: 0.5em;
+    position: absolute;
+    top: 15px;
+    width: 100%;
+    text-align: right;
+    height: 15px;
+    padding: .2em 1em;
+    opacity: .5;
+}
