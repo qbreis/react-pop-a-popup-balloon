@@ -11,16 +11,14 @@ export default function Game({numberOfBalloons,gameDuration}) {
         coverScreenTopPosition: false,
         gameScreenStartTransition: false,
 
-        // New state var for game caption to hide
-        balloonGridCaptionTransition: false,
+        // Initialize with empty string
+        balloonGridCaptionTransition: '',
 
         timeRemaining: 0
     });
 
     const transitionTimerRef = useRef(null);
     const transitionAuxiliarTimerRef = useRef(null);
-
-    // New ref for new state var
     const balloonGridCaptionTransitionRef = useRef(null);
 
     const handleGameToggle = useCallback(function(start) {
@@ -32,6 +30,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 gameScreenStartTransition: true,
                 coverScreenTopPosition: !start,
                 timeRemaining: start ? gameDuration : 0,
+                balloonGridCaptionTransition: '',
             };
         });
 
@@ -56,8 +55,8 @@ export default function Game({numberOfBalloons,gameDuration}) {
                             ...prevState,
                             gameScreenStartTransition: false,
 
-                            // Set new state var for game caption to true
-                            balloonGridCaptionTransition: true,
+                            // Set new state var for game caption to 'active'
+                            balloonGridCaptionTransition: 'active',
                         }
                     });
 
@@ -72,14 +71,14 @@ export default function Game({numberOfBalloons,gameDuration}) {
             }, 100
         );
 
-        // Set new state var for game caption to false after 2 seconds
+        // Set new state var for game caption to 'inactive' after 2 seconds
         balloonGridCaptionTransitionRef.current = setTimeout(
             function() {
                 if (start) {
                     setGameState(function(prevState) {
                         return {
                             ...prevState,
-                            balloonGridCaptionTransition: false,
+                            balloonGridCaptionTransition: 'inactive',
                         }
                     });
 
@@ -92,8 +91,6 @@ export default function Game({numberOfBalloons,gameDuration}) {
     useEffect(function() {
         const transitionTimerRefValue = transitionTimerRef.current;
         const transitionAuxiliarTimerRefValue = transitionAuxiliarTimerRef.current;
-
-        // New variable to hold the timer reference
         const balloonGridCaptionTransitionRefValue = balloonGridCaptionTransitionRef.current;
 
         if (gameState.gameStarted) {
@@ -120,8 +117,6 @@ export default function Game({numberOfBalloons,gameDuration}) {
             return function() {
                 clearTimeout(transitionTimerRefValue);
                 clearTimeout(transitionAuxiliarTimerRefValue);
-
-                // Clear the balloonGridCaptionTransitionRef timer
                 clearTimeout(balloonGridCaptionTransitionRefValue);
             };
         }
@@ -148,8 +143,6 @@ export default function Game({numberOfBalloons,gameDuration}) {
                     timeRemaining={gameState.timeRemaining}
                     gameTimeDelay={Constants.gameTimeDelay}
                     gameDuration={gameDuration}
-
-                    // Add balloonGridCaptionTransition
                     balloonGridCaptionTransition={gameState.balloonGridCaptionTransition}
                 />
             :''}
@@ -169,8 +162,6 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 coverScreenTopPosition: {gameState.coverScreenTopPosition.toString()}<br />
                 gameScreenStartTransition: {gameState.gameScreenStartTransition.toString()}<br />
                 timeRemaining: {gameState.timeRemaining.toString()}<br />
-
-                {/* Comment here please */}
                 balloonGridCaptionTransition: {gameState.balloonGridCaptionTransition.toString()}<br />
             </div>
         </div>

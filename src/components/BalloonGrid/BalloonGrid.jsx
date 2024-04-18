@@ -13,8 +13,7 @@ export default function BalloonGrid(
         timeRemaining,
         gameTimeDelay,
         gameDuration,
-
-        balloonGridCaptionTransition, // To control game screen caption transition
+        balloonGridCaptionTransition,
     }
 ) {
     const [activeBalloons, setActiveBalloons] = useState([]);
@@ -61,11 +60,7 @@ export default function BalloonGrid(
                 {/* I want to use gameScreenStartTransition and balloonGridCaptionTransition state var to set this element active */}
                 <p className={`
                     balloon-grid-caption
-                    ${
-                        !gameScreenStartTransition 
-                        && balloonGridCaptionTransition // here comment please
-                        ? 'active' : ''
-                    }
+                    ${balloonGridCaptionTransition}
                     `}>
                     Click a balloon!
                 </p>
