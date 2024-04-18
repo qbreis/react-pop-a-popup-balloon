@@ -12,7 +12,7 @@ export default function App() {
                     (
                         Constants.gameDuration // seconds
                         * 
-                        1000 // 1 second is 1000 miliseconds
+                        10000 // 1 second is 1000 miliseconds
                     ) 
                     / 
                     10 // I will decrease 10 miliseconds each time

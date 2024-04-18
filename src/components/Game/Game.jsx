@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef,
-    useCallback // Adding useCallback hook from React
-} from "react";
+import React, { useState, useEffect, useRef,useCallback } from "react";
 import CoverScreen from '../CoverScreen/CoverScreen';
 import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import Constants from "../../utils/constants";
@@ -12,14 +10,17 @@ export default function Game({numberOfBalloons,gameDuration}) {
         coverScreenTransition: false,
         coverScreenTopPosition: false,
         gameScreenStartTransition: false,
-        timeRemaining: 0 // milliseconds
+
+        // Initialize with empty string
+        balloonGridCaptionTransition: '',
+
+        timeRemaining: 0
     });
 
     const transitionTimerRef = useRef(null);
     const transitionAuxiliarTimerRef = useRef(null);
+    const balloonGridCaptionTransitionRef = useRef(null);
 
-    // Transition from a regular function to a useCallback hook to optimize performance in React components by memoizing the function.
-    // const handleGameToggle = function(start) {
     const handleGameToggle = useCallback(function(start) {
         setGameState(function(prevState) {
             return {
@@ -28,7 +29,8 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 coverScreenTransition: start,
                 gameScreenStartTransition: true,
                 coverScreenTopPosition: !start,
-                timeRemaining: start ? gameDuration : 0
+                timeRemaining: start ? gameDuration : 0,
+                balloonGridCaptionTransition: '',
             };
         });
 
@@ -38,7 +40,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
                     return {
                         ...prevState,
                         coverScreenTransition: false,
-                        gameScreenStartTransition: false
+                        gameScreenStartTransition: false,
                     };
                 });
             },
@@ -52,6 +54,9 @@ export default function Game({numberOfBalloons,gameDuration}) {
                         return {
                             ...prevState,
                             gameScreenStartTransition: false,
+
+                            // Set new state var for game caption to 'active'
+                            balloonGridCaptionTransition: 'active',
                         }
                     });
 
@@ -65,11 +70,28 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 }
             }, 100
         );
+
+        // Set new state var for game caption to 'inactive' after 2 seconds
+        balloonGridCaptionTransitionRef.current = setTimeout(
+            function() {
+                if (start) {
+                    setGameState(function(prevState) {
+                        return {
+                            ...prevState,
+                            balloonGridCaptionTransition: 'inactive',
+                        }
+                    });
+
+                } 
+            }, 2000
+        );
+
     }, [gameDuration]);
 
     useEffect(function() {
         const transitionTimerRefValue = transitionTimerRef.current;
         const transitionAuxiliarTimerRefValue = transitionAuxiliarTimerRef.current;
+        const balloonGridCaptionTransitionRefValue = balloonGridCaptionTransitionRef.current;
 
         if (gameState.gameStarted) {
             const gameTimeInterval = setInterval(
@@ -85,7 +107,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
                         handleGameToggle(false);
                     }
                 }, 
-                Constants.gameTimeDelay // milliseconds
+                Constants.gameTimeDelay
             );
 
             return function() {
@@ -95,10 +117,11 @@ export default function Game({numberOfBalloons,gameDuration}) {
             return function() {
                 clearTimeout(transitionTimerRefValue);
                 clearTimeout(transitionAuxiliarTimerRefValue);
+                clearTimeout(balloonGridCaptionTransitionRefValue);
             };
         }
     }, [gameState.gameStarted, gameState.timeRemaining, 
-        handleGameToggle // adding handleGameToggle
+        handleGameToggle
     ]);
 
     return (
@@ -119,8 +142,8 @@ export default function Game({numberOfBalloons,gameDuration}) {
                     numberOfBalloons={numberOfBalloons}
                     timeRemaining={gameState.timeRemaining}
                     gameTimeDelay={Constants.gameTimeDelay}
-                    // I will need gameDuration to calculate remaining time percentage
                     gameDuration={gameDuration}
+                    balloonGridCaptionTransition={gameState.balloonGridCaptionTransition}
                 />
             :''}
 
@@ -139,6 +162,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 coverScreenTopPosition: {gameState.coverScreenTopPosition.toString()}<br />
                 gameScreenStartTransition: {gameState.gameScreenStartTransition.toString()}<br />
                 timeRemaining: {gameState.timeRemaining.toString()}<br />
+                balloonGridCaptionTransition: {gameState.balloonGridCaptionTransition.toString()}<br />
             </div>
         </div>
     );

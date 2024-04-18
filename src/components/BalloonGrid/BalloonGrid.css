@@ -9,15 +9,38 @@
 }
 
 .balloon-grid-caption {
+    font-size: 2em;
+    font-weight: bold;
     text-align: center;
-    color: var(--sec-color-light);
+    color: #ffffff;
+    position: absolute;
+    width: 100vw;
+    bottom: calc(100vh / 2 - 4em);
+    z-index: 1;
+    pointer-events: none;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 100vw;
 }
-  
+
+.balloon-grid-caption.active {
+    left: 0;
+    transition: all 1000ms;
+}
+
+.balloon-grid-caption.inactive {
+    left: -100vw;
+    transition: all 1000ms;
+}
+
 .balloon-grid-caption + .balloon-grid {
     margin-top: 1.5em;
 }
   
 .balloon-grid {
     display: flex;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    justify-content: center;
 }
