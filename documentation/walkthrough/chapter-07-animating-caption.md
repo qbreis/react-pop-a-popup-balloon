@@ -1,9 +1,79 @@
-import React, { useState, useEffect, useRef,useCallback } from "react";
-import CoverScreen from '../CoverScreen/CoverScreen';
-import BalloonGrid from '../BalloonGrid/BalloonGrid';
-import Constants from "../../utils/constants";
-import "./Game.css";
+# Chapter #7 - Animating Balloon Screen Caption
 
+In this chapter I want a small animation for game screen caption "Click a balloon" appearing from left or right.
+
+I want to update `src/components/BalloonGrid/BalloonGrid.css`:
+
+```css
+[...]
+.balloon-grid-caption {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    position: absolute;
+    width: 100vw;
+    bottom: calc(100vh / 2 - 4em);
+    transition: all 1000ms;
+    background: rgba(255, 0, 0, 0.5);
+    z-index: 1;
+    pointer-events: none;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 80vw;
+}
+
+.balloon-grid-caption.active {
+    left: 0;
+}
+[...]
+```
+
+Now in `src/components/BalloonGrid/BalloonGrid.jsx`:
+
+```js
+[...]
+return (
+    <div className={`
+        balloon-grid-wrapper
+        ${gameStarted ? 'gameStarted' : ''}
+        ${gameScreenStartTransition ? 'gameScreenStartTransition' : ''}
+        `}>
+        <div className="game-header">
+            {/* I want to use gameScreenStartTransition state var to set this element active */}
+            <p className={`
+                balloon-grid-caption
+                ${!gameScreenStartTransition ? 'active' : ''}
+                `}>
+                Click a balloon!
+            </p>
+[...]
+```
+
+And I also want to do small update in `src/App.css`:
+
+```css
+body {
+    font-size: calc(10px + 2vmin);
+    background-color: var(--background-color);
+    color: var(--color-1);
+    margin: 0;
+    width: 100vw;/* Full view width */
+    height: 100vh;/* Full view height */
+    overflow: hidden;/* Avoid scroll bars when absolute positioning with elements that extend beyond the viewport boundaries */
+}
+```
+
+Now when I click "Start game", caption appears from right of the screen in a soft transition.
+
+I want it to stay for a while and then go back to the right or maybe hiding to left out of viewport boundaries.
+
+I will use a new state var `balloonGridCaptionTransition` in `src/components/Game/Game.jsx`:
+
+```js
+[...]
 export default function Game({numberOfBalloons,gameDuration}) {
     const [gameState, setGameState] = useState({
         gameStarted: false,
@@ -24,30 +94,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
     const balloonGridCaptionTransitionRef = useRef(null);
 
     const handleGameToggle = useCallback(function(start) {
-        setGameState(function(prevState) {
-            return {
-                ...prevState,
-                gameStarted: start,
-                coverScreenTransition: start,
-                gameScreenStartTransition: true,
-                coverScreenTopPosition: !start,
-                timeRemaining: start ? gameDuration : 0,
-            };
-        });
-
-        transitionTimerRef.current = setTimeout(
-            function() {
-                setGameState(function(prevState) {
-                    return {
-                        ...prevState,
-                        coverScreenTransition: false,
-                        gameScreenStartTransition: false,
-                    };
-                });
-            },
-            300
-        );
-
+[...]
         transitionAuxiliarTimerRef.current = setTimeout(
             function() {
                 if (start) {
@@ -72,7 +119,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
             }, 100
         );
 
-        // Set new state var for game caption to false after 2 seconds
+        // Set new state var for game caption back to false after 2 seconds
         balloonGridCaptionTransitionRef.current = setTimeout(
             function() {
                 if (start) {
@@ -97,25 +144,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
         const balloonGridCaptionTransitionRefValue = balloonGridCaptionTransitionRef.current;
 
         if (gameState.gameStarted) {
-            const gameTimeInterval = setInterval(
-                function() {
-                    if(gameState.timeRemaining > 0) {
-                        setGameState(function(prevState) {
-                            return {
-                                ...prevState,
-                                timeRemaining: prevState.timeRemaining - 1
-                            };
-                        });
-                    } else {
-                        handleGameToggle(false);
-                    }
-                }, 
-                Constants.gameTimeDelay
-            );
-
-            return function() {
-                clearInterval(gameTimeInterval);
-            };
+[...]
         } else {
             return function() {
                 clearTimeout(transitionTimerRefValue);
@@ -130,15 +159,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
     ]);
 
     return (
-        <div className="game-container">
-            {(gameState.coverScreenTransition || !gameState.gameStarted) ?
-                <CoverScreen 
-                    onStartGame={function() {handleGameToggle(true)}} 
-                    gameStarted={gameState.gameStarted}
-                    coverScreenTopPosition={gameState.coverScreenTopPosition}
-            />
-            :''}
-
+[...]
             {(gameState.gameStarted || gameState.gameScreenStartTransition) ?
                 <BalloonGrid 
                     onStopGame={function() {handleGameToggle(false)}} 
@@ -170,9 +191,53 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 gameScreenStartTransition: {gameState.gameScreenStartTransition.toString()}<br />
                 timeRemaining: {gameState.timeRemaining.toString()}<br />
 
-                {/* Comment here please */}
+                {/* Want to see balloonGridCaptionTransition value at all times */}
                 balloonGridCaptionTransition: {gameState.balloonGridCaptionTransition.toString()}<br />
             </div>
-        </div>
+[...]
+```
+
+In `src/components/BalloonGrid/BalloonGrid.jsx`:
+
+```js
+[...]
+export default function BalloonGrid(
+    {
+        onStopGame,
+        gameStarted ,
+        gameScreenStartTransition,
+        numberOfBalloons,
+        timeRemaining,
+        gameTimeDelay,
+        gameDuration,
+
+        balloonGridCaptionTransition, // To control game screen caption transition
+    }
+) {
+[...]
+    return (
+[...]
+            <div className="game-header">
+                {/* I want to use gameScreenStartTransition and balloonGridCaptionTransition state var to set this element active */}
+                <p className={`
+                    balloon-grid-caption
+                    ${
+                        !gameScreenStartTransition 
+                        && balloonGridCaptionTransition // here comment please
+                        ? 'active' : ''
+                    }
+                    `}>
+                    Click a balloon!
+                </p>
+                <ProgressBar time={timeRemaining} delay={gameTimeDelay} gameDuration={gameDuration} />
+                <Button onClick={onStopGame}>
+                    Stop
+                </Button>
+            </div>
+[...]
     );
-};
+}
+```
+
+Now I have what I wanted, when I click "Start game", caption appears from right of the screen in a soft transition, it stays for a while, 2 seconds and then it hides back to the right out of viewport boundaries.
+

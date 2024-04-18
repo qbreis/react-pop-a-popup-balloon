@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import Balloon from "../Balloon/Balloon";
 import Button from "../Button/Button";
-// import GameScore from "../GameScore/GameScore";
-
-// Import ProgressBar component
 import ProgressBar from "../ProgressBar/ProgressBar";
-
 import "./BalloonGrid.css";
 
 export default function BalloonGrid(
@@ -13,13 +9,12 @@ export default function BalloonGrid(
         onStopGame,
         gameStarted ,
         gameScreenStartTransition,
-
         numberOfBalloons,
         timeRemaining,
-
         gameTimeDelay,
-        // I will need gameDuration to calculate remaining time percentage
-        gameDuration
+        gameDuration,
+
+        balloonGridCaptionTransition, // To control game screen caption transition
     }
 ) {
     const [activeBalloons, setActiveBalloons] = useState([]);
@@ -63,15 +58,18 @@ export default function BalloonGrid(
             ${gameScreenStartTransition ? 'gameScreenStartTransition' : ''}
             `}>
             <div className="game-header">
-                <p className="balloon-grid-caption">
+                {/* I want to use gameScreenStartTransition and balloonGridCaptionTransition state var to set this element active */}
+                <p className={`
+                    balloon-grid-caption
+                    ${
+                        !gameScreenStartTransition 
+                        && balloonGridCaptionTransition // here comment please
+                        ? 'active' : ''
+                    }
+                    `}>
                     Click a balloon!
                 </p>
-
-                {/* New ProgressBar component */}
                 <ProgressBar time={timeRemaining} delay={gameTimeDelay} gameDuration={gameDuration} />
-
-                {/*<GameScore time={timeRemaining} delay={gameTimeDelay} />*/}
-
                 <Button onClick={onStopGame}>
                     Stop
                 </Button>
