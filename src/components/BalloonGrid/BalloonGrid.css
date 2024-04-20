@@ -10,7 +10,20 @@
 
 .balloon-grid-caption {
     text-align: center;
-    color: var(--sec-color-light);
+    font-size: 2em;
+    font-weight: bold;
+    color: #ffffff;
+    position: absolute;
+    width: 100vw;
+    bottom: calc(100vh / 2 - 4em);
+    z-index: 1;
+    pointer-events: none;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 100vw;
+    animation: fadeInOut 4s forwards;
 }
   
 .balloon-grid-caption + .balloon-grid {
@@ -19,5 +32,27 @@
   
 .balloon-grid {
     display: flex;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@keyframes fadeInOut {
+    0% {
+        left: 100vw;
+        opacity: .2;
+    }
+    40% {
+        left: 0;
+        right: 0;
+        opacity: 1;
+    }
+    60% {
+        left: 0;
+        right: 0;
+        opacity: 1;
+    }
+    100% {
+        left: -100vw;
+        opacity: .2;
+    }
 }
