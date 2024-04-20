@@ -69,3 +69,8 @@ body {
 [...]
 ```
 
+## Reference links
+
+- [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
+- [Chapter #7 - Animating Balloon Screen Caption](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-07) - Link to this chapter.
+- [React Pop a Popup Balloon Chapters](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main/documentation/walkthrough) - Link to all Chapters.
