@@ -9,9 +9,9 @@
 }
 
 .balloon-grid-caption {
+    text-align: center;
     font-size: 2em;
     font-weight: bold;
-    text-align: center;
     color: #ffffff;
     position: absolute;
     width: 100vw;
@@ -23,18 +23,9 @@
     align-items: center;
     justify-content: center;
     left: 100vw;
+    animation: fadeInOut 4s forwards;
 }
-
-.balloon-grid-caption.active {
-    left: 0;
-    transition: all 1000ms;
-}
-
-.balloon-grid-caption.inactive {
-    left: -100vw;
-    transition: all 1000ms;
-}
-
+  
 .balloon-grid-caption + .balloon-grid {
     margin-top: 1.5em;
 }
@@ -43,4 +34,25 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+@keyframes fadeInOut {
+    0% {
+        left: 100vw;
+        opacity: .2;
+    }
+    40% {
+        left: 0;
+        right: 0;
+        opacity: 1;
+    }
+    60% {
+        left: 0;
+        right: 0;
+        opacity: 1;
+    }
+    100% {
+        left: -100vw;
+        opacity: .2;
+    }
 }
