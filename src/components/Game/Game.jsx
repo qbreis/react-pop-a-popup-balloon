@@ -6,20 +6,75 @@ import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import Constants from "../../utils/constants";
 import "./Game.css";
 
-export default function Game({numberOfBalloons,gameDuration}) {
+export default function Game({
+    numberOfBalloons,
+    gameDuration
+}) {
     const [gameState, setGameState] = useState({
         gameStarted: false,
         coverScreenTransition: false,
         coverScreenTopPosition: false,
         gameScreenStartTransition: false,
-        timeRemaining: 0 // milliseconds
+        timeRemaining: 0, // milliseconds
+        activeBalloons: [],
+        // Add score game state variable
+        score: 0
     });
+
+    useEffect(() => {
+        const toggleBalloons = () => {
+            // Only toggle balloons if gameStarted is true
+            if (gameState.gameStarted) {
+                const randomActiveBalloons = Array.from(
+                    {length: numberOfBalloons}, 
+                    function() {
+                        return Math.random() < 0.5;
+                    }
+                )
+                .map(function(isActive, index) {
+                    return isActive ? index : null;
+                })
+                .filter(function(index) {
+                    return index !== null;
+                });
+
+                // Update the gameState with the new activeBalloons
+                setGameState(function(prevState) {
+                    return {
+                        ...prevState,
+                        activeBalloons: randomActiveBalloons,
+                    };
+                });
+            }
+        };
+    
+        toggleBalloons();
+        const intervalId = setInterval(toggleBalloons, 1000);
+        return () => clearInterval(intervalId);
+    }, [numberOfBalloons, gameState.gameStarted]);
 
     const transitionTimerRef = useRef(null);
     const transitionAuxiliarTimerRef = useRef(null);
 
-    // Transition from a regular function to a useCallback hook to optimize performance in React components by memoizing the function.
-    // const handleGameToggle = function(start) {
+
+    const handleBalloonClick = (index) => {
+        if (gameState.activeBalloons.includes(index)) {
+            console.log(`balloon ${index} clicked!!!`);
+
+            // Remove the clicked balloon from the activeBalloons array
+            const newActiveBalloons = gameState.activeBalloons.filter(balloonIndex => balloonIndex !== index);
+            
+            setGameState(prevState => ({
+                ...prevState,
+                activeBalloons: newActiveBalloons, // Update the gameState with the new activeBalloons array
+                score: prevState.score + 1 // updates score game state variable
+            }));
+
+        } else {
+            console.log('FAIL');
+        }
+    };
+
     const handleGameToggle = useCallback(function(start) {
         setGameState(function(prevState) {
             return {
@@ -60,6 +115,10 @@ export default function Game({numberOfBalloons,gameDuration}) {
                         return {
                             ...prevState,
                             coverScreenTopPosition: false,
+                            // Reset activeBalloons
+                            activeBalloons: [],
+                            // Reset game score
+                            score: 0
                         }
                     });
                 }
@@ -113,14 +172,18 @@ export default function Game({numberOfBalloons,gameDuration}) {
 
             {(gameState.gameStarted || gameState.gameScreenStartTransition) ?
                 <BalloonGrid 
+                    activeBalloons={gameState.activeBalloons}
                     onStopGame={function() {handleGameToggle(false)}} 
                     gameStarted={gameState.gameStarted} 
                     gameScreenStartTransition={gameState.gameScreenStartTransition}
                     numberOfBalloons={numberOfBalloons}
                     timeRemaining={gameState.timeRemaining}
                     gameTimeDelay={Constants.gameTimeDelay}
-                    // I will need gameDuration to calculate remaining time percentage
                     gameDuration={gameDuration}
+                    onBalloonClick={handleBalloonClick}
+
+                    // Pass score to game screen in BalloonGrid component
+                    score={gameState.score}
                 />
             :''}
 
@@ -139,6 +202,10 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 coverScreenTopPosition: {gameState.coverScreenTopPosition.toString()}<br />
                 gameScreenStartTransition: {gameState.gameScreenStartTransition.toString()}<br />
                 timeRemaining: {gameState.timeRemaining.toString()}<br />
+                activeBalloons: {gameState.activeBalloons.toString()}<br />
+
+                {/* Add score game state variable to visual */}
+                score: {gameState.score.toString()}<br />
             </div>
         </div>
     );
