@@ -459,10 +459,8 @@ export default function BalloonGrid(
 [...]
 ```
 
+## Reference links
 
-
-
-
-
-## Showing game score
-
+- [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
+- [Chapter #8 - Part 1 - Scoring](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-08) - Link to this chapter.
+- [React Pop a Popup Balloon Chapters](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main/documentation/walkthrough) - Link to all Chapters.
