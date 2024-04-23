@@ -350,24 +350,30 @@ Now when I click a balloon I can see score increments, but when I start over sco
 
 ```js
 [...]
-transitionAuxiliarTimerRef.current = setTimeout(
-    function() {
-        if (start) {
-[...]
-        } else {
-            setGameState(function(prevState) {
-                return {
-                    ...prevState,
-                    coverScreenTopPosition: false,
-                    // Reset activeBalloons
-                    activeBalloons: [],
-                    // Reset game score
-                    score: 0
+        transitionAuxiliarTimerRef.current = setTimeout(
+            function() {
+                if (start) {
+                    setGameState(function(prevState) {
+                        return {
+                            ...prevState,
+                            gameScreenStartTransition: false,
+                            // Reset game score
+                            score: 0
+                        }
+                    });
+
+                } else {
+                    setGameState(function(prevState) {
+                        return {
+                            ...prevState,
+                            coverScreenTopPosition: false,
+                            // Reset activeBalloons
+                            activeBalloons: [],
+                        }
+                    });
                 }
-            });
-        }
-    }, 100
-);
+            }, 100
+        );
 [...]
 ```
 

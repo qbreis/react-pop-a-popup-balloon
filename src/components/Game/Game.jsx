@@ -107,6 +107,8 @@ export default function Game({
                         return {
                             ...prevState,
                             gameScreenStartTransition: false,
+                            // Reset game score
+                            score: 0
                         }
                     });
 
@@ -117,8 +119,6 @@ export default function Game({
                             coverScreenTopPosition: false,
                             // Reset activeBalloons
                             activeBalloons: [],
-                            // Reset game score
-                            score: 0
                         }
                     });
                 }
