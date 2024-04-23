@@ -18,7 +18,11 @@ svg {
     transform-origin: 50% 300%;
 }
 
-.balloon-cell { width: 50%;padding: 0.5em; }
+.balloon-cell { 
+    position: relative;
+    width: 50%;
+    padding: 0.5em;
+}
 
 .balloon-wrapper {
     position: relative;
@@ -53,4 +57,8 @@ svg {
     transform-origin: 50% 20%;
     opacity: 0;
     transition: all .2s;
+}
+
+.balloon--popping .balloon {
+    translate: 0% 0%;
 }

@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef,
-    useCallback // Adding useCallback hook from React
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CoverScreen from '../CoverScreen/CoverScreen';
 import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import Constants from "../../utils/constants";
+
+// I import getRandomNumber from utils/randomNumber
+import getRandomNumber from "../../utils/randomNumber";
+
 import "./Game.css";
 
 export default function Game({
@@ -17,10 +19,10 @@ export default function Game({
         gameScreenStartTransition: false,
         timeRemaining: 0, // milliseconds
         activeBalloons: [],
-        // Add score game state variable
         score: 0
     });
 
+    /*
     useEffect(() => {
         const toggleBalloons = () => {
             // Only toggle balloons if gameStarted is true
@@ -52,6 +54,41 @@ export default function Game({
         const intervalId = setInterval(toggleBalloons, 1000);
         return () => clearInterval(intervalId);
     }, [numberOfBalloons, gameState.gameStarted]);
+    */
+
+    const intervalIdsRef = useRef([]);
+    useEffect(() => {
+        intervalIdsRef.current = [];
+
+        const generateRandomBalloon = () => {
+            setGameState(prevState => {
+                const randomBalloonId = Math.floor(Math.random() * numberOfBalloons);
+                const newActiveBalloons = prevState.activeBalloons.includes(randomBalloonId)
+                    ? prevState.activeBalloons.filter(activeId => activeId !== randomBalloonId)
+                    : [...prevState.activeBalloons, randomBalloonId];
+            
+                return {
+                    ...prevState,
+                    activeBalloons: newActiveBalloons,
+                };
+            });
+        };
+
+        for (let i = 0; i < numberOfBalloons; i++) {
+            const intervalId = setInterval(
+                generateRandomBalloon,
+                getRandomNumber(
+                    Constants.balloonTogglingRandomnessLimits.lower,
+                    Constants.balloonTogglingRandomnessLimits.upper
+                )
+            );
+            intervalIdsRef.current.push(intervalId);
+        }
+
+        return () => {
+            intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
+        };
+    }, [numberOfBalloons]);
 
     const transitionTimerRef = useRef(null);
     const transitionAuxiliarTimerRef = useRef(null);
