@@ -1,12 +1,8 @@
-import calculateSeconds from "../../utils/calculateSeconds";
-
-export default function GameScore({time, delay}) {
+import "./GameScore.css";
+export default function GameScore({score}) {
     return (
         <div className="game-score">
-            {
-            calculateSeconds(time, delay)
-            }s remaining
+            Score: {score}
         </div>
     );
 };
-

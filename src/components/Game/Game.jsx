@@ -1,25 +1,116 @@
-import React, { useState, useEffect, useRef,useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CoverScreen from '../CoverScreen/CoverScreen';
 import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import Constants from "../../utils/constants";
+
+// I import getRandomNumber from utils/randomNumber
+import getRandomNumber from "../../utils/randomNumber";
+
 import "./Game.css";
 
-export default function Game({numberOfBalloons,gameDuration}) {
+export default function Game({
+    numberOfBalloons,
+    gameDuration
+}) {
     const [gameState, setGameState] = useState({
         gameStarted: false,
         coverScreenTransition: false,
         coverScreenTopPosition: false,
         gameScreenStartTransition: false,
-
-        // Initialize with empty string
-        balloonGridCaptionTransition: '',
-
-        timeRemaining: 0
+        timeRemaining: 0, // milliseconds
+        activeBalloons: [],
+        score: 0
     });
+
+    /*
+    useEffect(() => {
+        const toggleBalloons = () => {
+            // Only toggle balloons if gameStarted is true
+            if (gameState.gameStarted) {
+                const randomActiveBalloons = Array.from(
+                    {length: numberOfBalloons}, 
+                    function() {
+                        return Math.random() < 0.5;
+                    }
+                )
+                .map(function(isActive, index) {
+                    return isActive ? index : null;
+                })
+                .filter(function(index) {
+                    return index !== null;
+                });
+
+                // Update the gameState with the new activeBalloons
+                setGameState(function(prevState) {
+                    return {
+                        ...prevState,
+                        activeBalloons: randomActiveBalloons,
+                    };
+                });
+            }
+        };
+    
+        toggleBalloons();
+        const intervalId = setInterval(toggleBalloons, 1000);
+        return () => clearInterval(intervalId);
+    }, [numberOfBalloons, gameState.gameStarted]);
+    */
+
+    const intervalIdsRef = useRef([]);
+    useEffect(() => {
+        intervalIdsRef.current = [];
+
+        const generateRandomBalloon = () => {
+            setGameState(prevState => {
+                const randomBalloonId = Math.floor(Math.random() * numberOfBalloons);
+                const newActiveBalloons = prevState.activeBalloons.includes(randomBalloonId)
+                    ? prevState.activeBalloons.filter(activeId => activeId !== randomBalloonId)
+                    : [...prevState.activeBalloons, randomBalloonId];
+            
+                return {
+                    ...prevState,
+                    activeBalloons: newActiveBalloons,
+                };
+            });
+        };
+
+        for (let i = 0; i < numberOfBalloons; i++) {
+            const intervalId = setInterval(
+                generateRandomBalloon,
+                getRandomNumber(
+                    Constants.balloonTogglingRandomnessLimits.lower,
+                    Constants.balloonTogglingRandomnessLimits.upper
+                )
+            );
+            intervalIdsRef.current.push(intervalId);
+        }
+
+        return () => {
+            intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
+        };
+    }, [numberOfBalloons]);
 
     const transitionTimerRef = useRef(null);
     const transitionAuxiliarTimerRef = useRef(null);
-    const balloonGridCaptionTransitionRef = useRef(null);
+
+
+    const handleBalloonClick = (index) => {
+        if (gameState.activeBalloons.includes(index)) {
+            console.log(`balloon ${index} clicked!!!`);
+
+            // Remove the clicked balloon from the activeBalloons array
+            const newActiveBalloons = gameState.activeBalloons.filter(balloonIndex => balloonIndex !== index);
+            
+            setGameState(prevState => ({
+                ...prevState,
+                activeBalloons: newActiveBalloons, // Update the gameState with the new activeBalloons array
+                score: prevState.score + 1 // updates score game state variable
+            }));
+
+        } else {
+            console.log('FAIL');
+        }
+    };
 
     const handleGameToggle = useCallback(function(start) {
         setGameState(function(prevState) {
@@ -29,8 +120,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 coverScreenTransition: start,
                 gameScreenStartTransition: true,
                 coverScreenTopPosition: !start,
-                timeRemaining: start ? gameDuration : 0,
-                balloonGridCaptionTransition: '',
+                timeRemaining: start ? gameDuration : 0
             };
         });
 
@@ -40,7 +130,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
                     return {
                         ...prevState,
                         coverScreenTransition: false,
-                        gameScreenStartTransition: false,
+                        gameScreenStartTransition: false
                     };
                 });
             },
@@ -54,9 +144,8 @@ export default function Game({numberOfBalloons,gameDuration}) {
                         return {
                             ...prevState,
                             gameScreenStartTransition: false,
-
-                            // Set new state var for game caption to 'active'
-                            balloonGridCaptionTransition: 'active',
+                            // Reset game score
+                            score: 0
                         }
                     });
 
@@ -65,33 +154,18 @@ export default function Game({numberOfBalloons,gameDuration}) {
                         return {
                             ...prevState,
                             coverScreenTopPosition: false,
+                            // Reset activeBalloons
+                            activeBalloons: [],
                         }
                     });
                 }
             }, 100
         );
-
-        // Set new state var for game caption to 'inactive' after 2 seconds
-        balloonGridCaptionTransitionRef.current = setTimeout(
-            function() {
-                if (start) {
-                    setGameState(function(prevState) {
-                        return {
-                            ...prevState,
-                            balloonGridCaptionTransition: 'inactive',
-                        }
-                    });
-
-                } 
-            }, 2000
-        );
-
     }, [gameDuration]);
 
     useEffect(function() {
         const transitionTimerRefValue = transitionTimerRef.current;
         const transitionAuxiliarTimerRefValue = transitionAuxiliarTimerRef.current;
-        const balloonGridCaptionTransitionRefValue = balloonGridCaptionTransitionRef.current;
 
         if (gameState.gameStarted) {
             const gameTimeInterval = setInterval(
@@ -107,7 +181,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
                         handleGameToggle(false);
                     }
                 }, 
-                Constants.gameTimeDelay
+                Constants.gameTimeDelay // milliseconds
             );
 
             return function() {
@@ -117,11 +191,10 @@ export default function Game({numberOfBalloons,gameDuration}) {
             return function() {
                 clearTimeout(transitionTimerRefValue);
                 clearTimeout(transitionAuxiliarTimerRefValue);
-                clearTimeout(balloonGridCaptionTransitionRefValue);
             };
         }
     }, [gameState.gameStarted, gameState.timeRemaining, 
-        handleGameToggle
+        handleGameToggle // adding handleGameToggle
     ]);
 
     return (
@@ -136,6 +209,7 @@ export default function Game({numberOfBalloons,gameDuration}) {
 
             {(gameState.gameStarted || gameState.gameScreenStartTransition) ?
                 <BalloonGrid 
+                    activeBalloons={gameState.activeBalloons}
                     onStopGame={function() {handleGameToggle(false)}} 
                     gameStarted={gameState.gameStarted} 
                     gameScreenStartTransition={gameState.gameScreenStartTransition}
@@ -143,7 +217,10 @@ export default function Game({numberOfBalloons,gameDuration}) {
                     timeRemaining={gameState.timeRemaining}
                     gameTimeDelay={Constants.gameTimeDelay}
                     gameDuration={gameDuration}
-                    balloonGridCaptionTransition={gameState.balloonGridCaptionTransition}
+                    onBalloonClick={handleBalloonClick}
+
+                    // Pass score to game screen in BalloonGrid component
+                    score={gameState.score}
                 />
             :''}
 
@@ -162,7 +239,10 @@ export default function Game({numberOfBalloons,gameDuration}) {
                 coverScreenTopPosition: {gameState.coverScreenTopPosition.toString()}<br />
                 gameScreenStartTransition: {gameState.gameScreenStartTransition.toString()}<br />
                 timeRemaining: {gameState.timeRemaining.toString()}<br />
-                balloonGridCaptionTransition: {gameState.balloonGridCaptionTransition.toString()}<br />
+                activeBalloons: {gameState.activeBalloons.toString()}<br />
+
+                {/* Add score game state variable to visual */}
+                score: {gameState.score.toString()}<br />
             </div>
         </div>
     );
