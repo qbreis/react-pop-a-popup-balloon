@@ -22,40 +22,6 @@ export default function Game({
         score: 0
     });
 
-    /*
-    useEffect(() => {
-        const toggleBalloons = () => {
-            // Only toggle balloons if gameStarted is true
-            if (gameState.gameStarted) {
-                const randomActiveBalloons = Array.from(
-                    {length: numberOfBalloons}, 
-                    function() {
-                        return Math.random() < 0.5;
-                    }
-                )
-                .map(function(isActive, index) {
-                    return isActive ? index : null;
-                })
-                .filter(function(index) {
-                    return index !== null;
-                });
-
-                // Update the gameState with the new activeBalloons
-                setGameState(function(prevState) {
-                    return {
-                        ...prevState,
-                        activeBalloons: randomActiveBalloons,
-                    };
-                });
-            }
-        };
-    
-        toggleBalloons();
-        const intervalId = setInterval(toggleBalloons, 1000);
-        return () => clearInterval(intervalId);
-    }, [numberOfBalloons, gameState.gameStarted]);
-    */
-
     const intervalIdsRef = useRef([]);
     useEffect(() => {
         intervalIdsRef.current = [];
@@ -86,7 +52,11 @@ export default function Game({
         }
 
         return () => {
-            intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
+            
+            // intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
+
+            clearIntervals();
+            
         };
     }, [numberOfBalloons]);
 
@@ -110,6 +80,10 @@ export default function Game({
         } else {
             console.log('FAIL');
         }
+    };
+
+    const clearIntervals = () => {
+        intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
     };
 
     const handleGameToggle = useCallback(function(start) {
@@ -151,6 +125,11 @@ export default function Game({
 
                 } else {
                     setGameState(function(prevState) {
+
+                        // intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
+
+                        clearIntervals();
+
                         return {
                             ...prevState,
                             coverScreenTopPosition: false,
@@ -218,9 +197,8 @@ export default function Game({
                     gameTimeDelay={Constants.gameTimeDelay}
                     gameDuration={gameDuration}
                     onBalloonClick={handleBalloonClick}
-
-                    // Pass score to game screen in BalloonGrid component
                     score={gameState.score}
+                    balloonTransitionTime={Constants.balloonTransitionTime}
                 />
             :''}
 

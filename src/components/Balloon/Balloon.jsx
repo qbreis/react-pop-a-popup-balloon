@@ -1,6 +1,6 @@
 import "./Balloon.css";
 import React, { useState } from 'react';
-export default function Balloon({ color, isActive, onClick }) {
+export default function Balloon({ color, balloonTransitionTime, isActive, onClick }) {
 
     const [isPopped, setIsPopped] = useState(false); 
     const isMoving = true;
@@ -40,7 +40,10 @@ export default function Balloon({ color, isActive, onClick }) {
                     >
                     <div 
                         className={classNames}
-                        style={{ color: color }} 
+                        style={{ 
+                            color: color, 
+                            transition: `all ${balloonTransitionTime}s` // Use inline style with dynamic value
+                        }}
                         >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

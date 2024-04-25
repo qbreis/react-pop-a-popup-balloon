@@ -4,9 +4,8 @@ svg {
 
 .balloon {
     max-width: 300px;
-    transition: all .35s;
+    /*transition: all .35s;*/
     margin: 0 auto;
-
     translate: 0% 100%;
     transform-origin: center;
     opacity: 0;

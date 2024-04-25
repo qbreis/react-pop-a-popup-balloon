@@ -16,9 +16,9 @@ export default function BalloonGrid(
         gameDuration,
         onBalloonClick,
         activeBalloons,
+        score,
 
-        // Need score
-        score
+        balloonTransitionTime
     }
 ) {
     const handleBalloonClick = (index) => {
@@ -31,11 +31,12 @@ export default function BalloonGrid(
     for (let i = 0; i < numberOfBalloons; i++) {
         balloons.push(
             <Balloon
-            key={i}
-            color="#9980FA"
-            isActive={activeBalloons.includes(i)}
-
-            onClick={() => handleBalloonClick(i)}
+                key={i}
+                color="#9980FA"
+                isActive={activeBalloons.includes(i)}
+                onClick={() => handleBalloonClick(i)}
+                balloonTransitionTime={balloonTransitionTime}
+                
             />
         );
     }
