@@ -200,6 +200,8 @@ export default function Game({
                     score={gameState.score}
                     balloonToggleTransition={Constants.balloonToggleTransition}
                     balloonPoppingTransition={Constants.balloonPoppingTransition}
+
+                    coinCounterDelay={Constants.coinCounterDelay}
                 />
             :''}
 

@@ -12,7 +12,7 @@
     animation-name: element-moving;
     /*animation-duration: 700ms;*/
     animation-timing-function: ease-in-out;
-    animation-delay: 0s; /* You can adjust this value */
+    animation-delay: 0s; /* I can adjust this value if needed */
     animation-fill-mode: forwards;
 }
 @keyframes element-moving {

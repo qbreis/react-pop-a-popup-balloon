@@ -6,7 +6,8 @@ export default function Balloon({
     balloonToggleTransition,
     balloonPoppingTransition, 
     isActive, 
-    onClick
+    onClick,
+    coinCounterDelay
 }) {
 
     const [isPopped, setIsPopped] = useState(false); 
@@ -31,7 +32,7 @@ export default function Balloon({
                 {
                     setIsPopped(false);
                 }, 
-                balloonPoppingTransition
+                coinCounterDelay
             );
             
             setTimeoutId(id);
@@ -67,7 +68,7 @@ export default function Balloon({
     return (
         <div className="balloon-cell">
             {(isPopped && !isActive) ?
-                <CoinCounter />
+                <CoinCounter coinCounterDelay={coinCounterDelay} />
             :''}
             <div className="balloon-wrapper">
                 <div 
