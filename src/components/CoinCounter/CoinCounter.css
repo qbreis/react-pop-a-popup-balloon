@@ -1,0 +1,27 @@
+.CoinCounter {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100px;
+    top: 30%;
+    text-align: center;
+    z-index: 1;
+    pointer-events: none;
+    font-weight: bold;
+    animation-name: element-moving;
+    /*animation-duration: 700ms;*/
+    animation-timing-function: ease-in-out;
+    animation-delay: 0s; /* You can adjust this value */
+    animation-fill-mode: forwards;
+}
+@keyframes element-moving {
+    0% { 
+        top: 30%;
+        opacity: 1; 
+    }
+    100% {
+        top: 0;
+        opacity: 0;
+    }
+}

@@ -1,11 +1,12 @@
 import "./Balloon.css";
 import React, { useState } from 'react';
+import CoinCounter from '../../components/CoinCounter/CoinCounter';
 export default function Balloon({ 
     color, 
     balloonToggleTransition,
     balloonPoppingTransition, 
     isActive, 
-    onClick 
+    onClick
 }) {
 
     const [isPopped, setIsPopped] = useState(false); 
@@ -44,6 +45,9 @@ export default function Balloon({
 
     return (
         <div className="balloon-cell">
+            {(isPopped && !isActive) ?
+                <CoinCounter />
+            :''}
             <div className="balloon-wrapper">
                 <div 
                     className={isPopped ? 'balloon--popping' : ''}
