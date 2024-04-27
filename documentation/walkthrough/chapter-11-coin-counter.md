@@ -220,5 +220,5 @@ useEffect(() => {
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
-- [Chapter #11 - Time Transition Props](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-11) - Link to this chapter.
+- [Chapter #11 - Coin Counter](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main-chapter-11) - Link to this chapter.
 - [React Pop a Popup Balloon Chapters](https://github.com/qbreis/react-pop-a-popup-balloon/tree/main/documentation/walkthrough) - Link to all Chapters.
