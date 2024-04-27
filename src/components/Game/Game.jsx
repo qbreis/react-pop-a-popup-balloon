@@ -198,7 +198,8 @@ export default function Game({
                     gameDuration={gameDuration}
                     onBalloonClick={handleBalloonClick}
                     score={gameState.score}
-                    balloonTransitionTime={Constants.balloonTransitionTime}
+                    balloonToggleTransition={Constants.balloonToggleTransition}
+                    balloonPoppingTransition={Constants.balloonPoppingTransition}
                 />
             :''}
 

@@ -4,7 +4,7 @@ In this chapter I want to pass down the necessary time transition props explicit
 
 ## Balloon Transition Time
 
-I will start with the `balloonTransitionTime` in ``:
+I will start with the `balloonToggleTransition` in ``:
 
 ```js
 const constants = {
@@ -13,7 +13,8 @@ const constants = {
     gameTimeDelay: 10, // milliseconds
     balloonTogglingRandomnessLimits: { upper: 3000, lower: 1000 }, // milliseconds
 
-    balloonTransitionTime: 3, //0.35 // milliseconds
+    balloonToggleTransition: 0.35 // milliseconds
+    balloonPoppingTransition: 0.35 // milliseconds
 };
 
 export default constants;
@@ -35,7 +36,7 @@ In `src/components/Game/Game.jsx`:
     onBalloonClick={handleBalloonClick}
     score={gameState.score}
 
-    balloonTransitionTime={Constants.balloonTransitionTime}
+    balloonToggleTransition={Constants.balloonToggleTransition}
 />
 [...]
 ```
@@ -57,7 +58,8 @@ export default function BalloonGrid(
         activeBalloons,
         score,
 
-        balloonTransitionTime
+        balloonToggleTransition,
+        balloonPoppingTransition
     }
 ) {
 [...]
@@ -68,7 +70,8 @@ balloons.push(
         isActive={activeBalloons.includes(i)}
         onClick={() => handleBalloonClick(i)}
 
-        balloonTransitionTime={balloonTransitionTime}
+        balloonToggleTransition={balloonToggleTransition}
+        balloonPoppingTransition={balloonPoppingTransition}
     />
 );
 [...]
@@ -82,19 +85,32 @@ import React, { useState } from 'react';
 export default function Balloon({ 
     color, 
 
-    balloonTransitionTime, 
+    balloonToggleTransition, 
+    balloonPoppingTransition, 
 
     isActive, 
     onClick 
 }) {
 [...]
+// Define inline styles
+const balloonStyles = {
+    transitionDuration: `${balloonPoppingTransition}ms` // Use inline style with dynamic value
+};
+
+return (
+[...]
 <div 
-    className={classNames}
-    style={{ 
-        color: color, 
-        transition: `all ${balloonTransitionTime}s` // Use inline style with dynamic value
-    }}
+    className={isPopped ? 'balloon--popping' : ''}
+    onClick={clickHandler}
+    style={balloonStyles} // Apply inline styles here
     >
+    <div 
+        className={classNames}
+        style={{ 
+            color: color, 
+            transitionDuration: `${balloonToggleTransition}ms` // Use inline style with dynamic value
+        }}
+        >
 [...]
 ```
 
@@ -105,10 +121,19 @@ And finally in `src/components/Balloon/Balloon.css`:
 .balloon {
     max-width: 300px;
     /*transition: all .35s;*/
+    transition-property: all;
     margin: 0 auto;
     translate: 0% 100%;
     transform-origin: center;
     opacity: 0;
+}
+[...]
+.balloon--popping {
+    transform: scale(2);
+    transform-origin: 50% 20%;
+    opacity: 0;
+    /*transition: all .2s;*/
+    transition-property: all;
 }
 [...]
 ```

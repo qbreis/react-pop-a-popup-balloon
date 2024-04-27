@@ -5,6 +5,7 @@ svg {
 .balloon {
     max-width: 300px;
     /*transition: all .35s;*/
+    transition-property: all;
     margin: 0 auto;
     translate: 0% 100%;
     transform-origin: center;
@@ -55,7 +56,9 @@ svg {
     transform: scale(2);
     transform-origin: 50% 20%;
     opacity: 0;
-    transition: all .2s;
+    /*transition: all .2s;*/
+    transition-property: all;
+    /*transition-duration: 700ms;*/
 }
 
 .balloon--popping .balloon {

@@ -1,6 +1,12 @@
 import "./Balloon.css";
 import React, { useState } from 'react';
-export default function Balloon({ color, balloonTransitionTime, isActive, onClick }) {
+export default function Balloon({ 
+    color, 
+    balloonToggleTransition,
+    balloonPoppingTransition, 
+    isActive, 
+    onClick 
+}) {
 
     const [isPopped, setIsPopped] = useState(false); 
     const isMoving = true;
@@ -31,18 +37,24 @@ export default function Balloon({ color, balloonTransitionTime, isActive, onClic
     const threadWidth = 10;
     const threadColor = '#ffffff';
 
+    // Define inline styles
+    const balloonStyles = {
+        transitionDuration: `${balloonPoppingTransition}ms` // Use inline style with dynamic value
+    };
+
     return (
         <div className="balloon-cell">
             <div className="balloon-wrapper">
                 <div 
                     className={isPopped ? 'balloon--popping' : ''}
                     onClick={clickHandler}
+                    style={balloonStyles} // Apply inline styles here
                     >
                     <div 
                         className={classNames}
                         style={{ 
                             color: color, 
-                            transition: `all ${balloonTransitionTime}s` // Use inline style with dynamic value
+                            transitionDuration: `${balloonToggleTransition}ms` // Use inline style with dynamic value
                         }}
                         >
                         <svg
