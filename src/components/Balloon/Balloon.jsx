@@ -1,9 +1,17 @@
 import "./Balloon.css";
-import React, { useState } from 'react';
-export default function Balloon({ color, balloonTransitionTime, isActive, onClick }) {
+import React, { useState, useEffect } from 'react'; // Adds useEffect
+export default function Balloon({ 
+    color, 
+    balloonToggleTransition,
+    balloonPoppingTransition, 
+    isActive, 
+    onClick 
+}) {
 
     const [isPopped, setIsPopped] = useState(false); 
     const isMoving = true;
+
+    const [timeoutId, setTimeoutId] = useState(null); // To control timeout clearing
 
     const clickHandler = () => {
         if (!isPopped) {
@@ -13,11 +21,30 @@ export default function Balloon({ color, balloonTransitionTime, isActive, onClic
                 onClick();
             }
         
+            /*
             setTimeout(() => {
                 setIsPopped(false);
             }, 1000);
+            */
+            const id = setTimeout(
+                () => 
+                {
+                    setIsPopped(false);
+                }, 
+                balloonPoppingTransition
+            );
+            
+            setTimeoutId(id);
         }
     };
+
+    useEffect(() => {
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [timeoutId]);
 
     const classNames = `
         balloon 
@@ -31,18 +58,24 @@ export default function Balloon({ color, balloonTransitionTime, isActive, onClic
     const threadWidth = 10;
     const threadColor = '#ffffff';
 
+    // Define inline styles
+    const balloonStyles = {
+        transitionDuration: `${balloonPoppingTransition}ms` // Use inline style with dynamic value
+    };
+
     return (
         <div className="balloon-cell">
             <div className="balloon-wrapper">
                 <div 
                     className={isPopped ? 'balloon--popping' : ''}
                     onClick={clickHandler}
+                    style={balloonStyles} // Apply inline styles here
                     >
                     <div 
                         className={classNames}
                         style={{ 
                             color: color, 
-                            transition: `all ${balloonTransitionTime}s` // Use inline style with dynamic value
+                            transitionDuration: `${balloonToggleTransition}ms` // Use inline style with dynamic value
                         }}
                         >
                         <svg
