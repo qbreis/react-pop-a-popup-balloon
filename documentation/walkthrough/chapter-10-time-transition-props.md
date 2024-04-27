@@ -198,6 +198,54 @@ To avoid repeating this code, I want to extract it into a separate function and 
 [...]
 ```
 
+## Clear timeout in balloon component
+
+In `src/components/Balloon/Balloon.jsx`:
+
+```js
+import "./Balloon.css";
+import React, { useState, useEffect } from 'react'; // Adds useEffect
+[...]
+    const [isPopped, setIsPopped] = useState(false); 
+    const isMoving = true;
+
+    const [timeoutId, setTimeoutId] = useState(null); // To control timeout clearing
+
+    const clickHandler = () => {
+        if (!isPopped) {
+            setIsPopped(true);
+
+            if(onClick) {
+                onClick();
+            }
+        
+            /*
+            setTimeout(() => {
+                setIsPopped(false);
+            }, 1000);
+            */
+            const id = setTimeout(
+                () => 
+                {
+                    setIsPopped(false);
+                }, 
+                balloonPoppingTransition
+            );
+            
+            setTimeoutId(id);
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [timeoutId]);
+[...]
+```
+
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.

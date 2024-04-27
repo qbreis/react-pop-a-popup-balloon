@@ -1,5 +1,5 @@
 import "./Balloon.css";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Adds useEffect
 import CoinCounter from '../../components/CoinCounter/CoinCounter';
 export default function Balloon({ 
     color, 
@@ -11,6 +11,7 @@ export default function Balloon({
 
     const [isPopped, setIsPopped] = useState(false); 
     const isMoving = true;
+    const [timeoutId, setTimeoutId] = useState(null); // To control timeout clearing
 
     const clickHandler = () => {
         if (!isPopped) {
@@ -20,11 +21,31 @@ export default function Balloon({
                 onClick();
             }
         
+            /*
             setTimeout(() => {
                 setIsPopped(false);
             }, 1000);
+            */
+            const id = setTimeout(
+                () => 
+                {
+                    setIsPopped(false);
+                }, 
+                balloonPoppingTransition
+            );
+            
+            setTimeoutId(id);
         }
     };
+
+    useEffect(() => {
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [timeoutId]);
+
 
     const classNames = `
         balloon 
