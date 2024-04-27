@@ -194,26 +194,28 @@ const constants = {
 export default constants;
 ```
 
-const constants = {
-    gameDuration: 1000,//10, // seconds
-    gameCells: 6,
-    gameTimeDelay: 10, // milliseconds
-    balloonTogglingRandomnessLimits: { 
-        //upper: 3000, lower: 1000 
-        upper: 4000, lower: 4000 
-    }, // milliseconds
+## Fixing small bug
 
-    balloonToggleTransition: 2000,//0.35 // milliseconds
-    balloonPoppingTransition: 2000,//0.35 // milliseconds
+Now I see small bug, when I stop the game and then start over, no ballons are coming!
 
-    coinCounterDelay: 3000,
-};
+The `useEffect` in `src/components/Game/Game.jsx` sets up intervals that periodically call generateRandomBalloon to add or remove random balloons from the game state, and it ensures that these intervals are cleaned up when the component unmounts or when certain dependencies change.
 
+The `useEffect` hook takes an optional second argument, which is an array of dependencies. These dependencies specify when the effect should be re-run.
 
+In this case, the `useEffect` hook has `[numberOfBalloons]` as its dependency array. This means that the effect will re-run if `numberOfBalloons` changes between renders.
 
+And that is why no ballons are coming when I start over the game, as long as `numberOfBalloons` did not change. To solve this small bug I just add here another dependency, `[numberOfBalloons, gameState.gameStarted]`, to re-run this effect when either `numberOfBalloons` or `gameState.gameStarted` changes between renders.
 
+In `src/components/Game/Game.jsx`:
 
-
+```js
+[...]
+useEffect(() => {
+    intervalIdsRef.current = [];
+[...]
+}, [numberOfBalloons, gameState.gameStarted]);
+[...]
+```
 
 ## Reference links
 
