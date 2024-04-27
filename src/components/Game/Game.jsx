@@ -54,7 +54,7 @@ export default function Game({
         return () => {
             clearIntervals(); 
         };
-    }, [numberOfBalloons]);
+    }, [numberOfBalloons, gameState.gameStarted]);
 
     const transitionTimerRef = useRef(null);
     const transitionAuxiliarTimerRef = useRef(null);
