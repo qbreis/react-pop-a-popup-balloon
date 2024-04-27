@@ -1,16 +1,17 @@
 import "./Balloon.css";
 import React, { useState, useEffect } from 'react'; // Adds useEffect
+import CoinCounter from '../../components/CoinCounter/CoinCounter';
 export default function Balloon({ 
     color, 
     balloonToggleTransition,
     balloonPoppingTransition, 
     isActive, 
-    onClick 
+    onClick,
+    coinCounterDelay
 }) {
 
     const [isPopped, setIsPopped] = useState(false); 
     const isMoving = true;
-
     const [timeoutId, setTimeoutId] = useState(null); // To control timeout clearing
 
     const clickHandler = () => {
@@ -31,7 +32,7 @@ export default function Balloon({
                 {
                     setIsPopped(false);
                 }, 
-                balloonPoppingTransition
+                coinCounterDelay
             );
             
             setTimeoutId(id);
@@ -45,6 +46,7 @@ export default function Balloon({
             }
         };
     }, [timeoutId]);
+
 
     const classNames = `
         balloon 
@@ -65,6 +67,9 @@ export default function Balloon({
 
     return (
         <div className="balloon-cell">
+            {(isPopped && !isActive) ?
+                <CoinCounter coinCounterDelay={coinCounterDelay} />
+            :''}
             <div className="balloon-wrapper">
                 <div 
                     className={isPopped ? 'balloon--popping' : ''}

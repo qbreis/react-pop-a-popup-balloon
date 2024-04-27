@@ -39,7 +39,7 @@ export default function Game({
                 };
             });
         };
-
+        
         for (let i = 0; i < numberOfBalloons; i++) {
             const intervalId = setInterval(
                 generateRandomBalloon,
@@ -52,17 +52,12 @@ export default function Game({
         }
 
         return () => {
-            
-            // intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
-
-            clearIntervals();
-            
+            clearIntervals(); 
         };
-    }, [numberOfBalloons]);
+    }, [numberOfBalloons, gameState.gameStarted]);
 
     const transitionTimerRef = useRef(null);
     const transitionAuxiliarTimerRef = useRef(null);
-
 
     const handleBalloonClick = (index) => {
         if (gameState.activeBalloons.includes(index)) {
@@ -125,11 +120,7 @@ export default function Game({
 
                 } else {
                     setGameState(function(prevState) {
-
-                        // intervalIdsRef.current.forEach((intervalId) => clearInterval(intervalId));
-
                         clearIntervals();
-
                         return {
                             ...prevState,
                             coverScreenTopPosition: false,
@@ -160,7 +151,7 @@ export default function Game({
                         handleGameToggle(false);
                     }
                 }, 
-                Constants.gameTimeDelay // milliseconds
+                Constants.gameTimeDelay
             );
 
             return function() {
@@ -173,7 +164,7 @@ export default function Game({
             };
         }
     }, [gameState.gameStarted, gameState.timeRemaining, 
-        handleGameToggle // adding handleGameToggle
+        handleGameToggle
     ]);
 
     return (
@@ -200,6 +191,7 @@ export default function Game({
                     score={gameState.score}
                     balloonToggleTransition={Constants.balloonToggleTransition}
                     balloonPoppingTransition={Constants.balloonPoppingTransition}
+                    coinCounterDelay={Constants.coinCounterDelay}
                 />
             :''}
 
@@ -219,8 +211,6 @@ export default function Game({
                 gameScreenStartTransition: {gameState.gameScreenStartTransition.toString()}<br />
                 timeRemaining: {gameState.timeRemaining.toString()}<br />
                 activeBalloons: {gameState.activeBalloons.toString()}<br />
-
-                {/* Add score game state variable to visual */}
                 score: {gameState.score.toString()}<br />
             </div>
         </div>
