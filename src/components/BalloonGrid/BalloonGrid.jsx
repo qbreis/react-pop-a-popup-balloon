@@ -19,8 +19,8 @@ export default function BalloonGrid(
         score,
         balloonToggleTransition,
         balloonPoppingTransition,
-
-        coinCounterDelay
+        coinCounterDelay,
+        balloonColors
     }
 ) {
     const handleBalloonClick = (index) => {
@@ -34,7 +34,8 @@ export default function BalloonGrid(
         balloons.push(
             <Balloon
                 key={i}
-                color="#9980FA"
+                //color="#9980FA"
+                color={balloonColors[i]}
                 isActive={activeBalloons.includes(i)}
                 onClick={() => handleBalloonClick(i)}
                 balloonToggleTransition={balloonToggleTransition}

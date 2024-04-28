@@ -2,16 +2,18 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import CoverScreen from '../CoverScreen/CoverScreen';
 import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import Constants from "../../utils/constants";
-
-// I import getRandomNumber from utils/randomNumber
 import getRandomNumber from "../../utils/randomNumber";
+//import getRandomColor from "../../utils/randomColor";
 
 import "./Game.css";
 
-export default function Game({
-    numberOfBalloons,
-    gameDuration
-}) {
+export default function Game({ numberOfBalloons, gameDuration }) {
+
+    const randomColorsArray = Array.from({ length: Constants.gameCells }, () => {
+        const randomIndex = Math.floor(Math.random() * Constants.colors.length);
+        return Constants.colors[randomIndex];
+    });
+
     const [gameState, setGameState] = useState({
         gameStarted: false,
         coverScreenTransition: false,
@@ -20,9 +22,11 @@ export default function Game({
         timeRemaining: 0, // milliseconds
         activeBalloons: [],
         score: 0,
-
         transitioning: false,
         transitionalActiveBalloons: [],
+
+        // set up a new state var array for each balloon color
+        balloonColors: randomColorsArray,
     });
 
     const intervalIdsRef = useRef([]);
@@ -38,7 +42,7 @@ export default function Game({
                     return {
                         ...prevState,
                         activeBalloons: newActiveBalloons,
-                        transitioning: true, // Flag to indicate transition
+                        transitioning: true,
                     };
                 });
             };
@@ -56,12 +60,10 @@ export default function Game({
 
             const transitionTimeout = setTimeout(
                 () => {
-                    //clearIntervals(); // Clear old intervals
                     setGameState(prevState => ({
                         ...prevState,
                         transitioning: false,
-                        //transitionalActiveBalloons: [],
-                        transitionalActiveBalloons: prevState.activeBalloons, // Save the copy
+                        transitionalActiveBalloons: prevState.activeBalloons,
                     }));
                 }, 
                 Constants.balloonToggleTransition
@@ -106,7 +108,7 @@ export default function Game({
                 coverScreenTransition: start,
                 gameScreenStartTransition: true,
                 coverScreenTopPosition: !start,
-                timeRemaining: start ? gameDuration : 0
+                timeRemaining: start ? gameDuration : 0,
             };
         });
 
@@ -206,6 +208,7 @@ export default function Game({
                     balloonToggleTransition={Constants.balloonToggleTransition}
                     balloonPoppingTransition={Constants.balloonPoppingTransition}
                     coinCounterDelay={Constants.coinCounterDelay}
+                    balloonColors={gameState.balloonColors}
                 />
             :''}
             
@@ -228,6 +231,7 @@ export default function Game({
                 score: {gameState.score.toString()}<br />
                 transitionalActiveBalloons: {gameState.transitionalActiveBalloons.toString()}<br />
                 transitioning: {gameState.transitioning.toString()}<br />
+                balloonColors: {gameState.balloonColors.toString()}<br />
             </div>
             
         </div>
