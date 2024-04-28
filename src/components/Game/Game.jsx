@@ -202,7 +202,8 @@ export default function Game({
                     onStartGame={function() {handleGameToggle(true)}} 
                     gameStarted={gameState.gameStarted}
                     coverScreenTopPosition={gameState.coverScreenTopPosition}
-            />
+                    score={gameState.score}
+                />
             :''}
 
             {(gameState.gameStarted || gameState.gameScreenStartTransition) ?
