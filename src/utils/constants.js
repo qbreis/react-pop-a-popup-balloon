@@ -10,7 +10,10 @@ const constants = {
     balloonPoppingTransition: 350, // milliseconds
     coinCounterDelay: 700, // milliseconds
 
-    colors: [ '#9980FA', '#ff6670', '#e3f33e', '#87c369', '#77a8e4', '#222222']
+    //colors: [ '#9980FA', '#ff6670', '#e3f33e', '#87c369', '#77a8e4', '#222222'],
+    colors: [ '#9980FA', '#ff6670', '#e3f33e' ],
+
+    forbiddenColors: [ '#ff6670' ]
 };
 
 export default constants;
