@@ -3,7 +3,6 @@ import CoverScreen from '../CoverScreen/CoverScreen';
 import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import Constants from "../../utils/constants";
 import getRandomNumber from "../../utils/randomNumber";
-//import getRandomColor from "../../utils/randomColor";
 
 import "./Game.css";
 
@@ -12,6 +11,13 @@ export default function Game({ numberOfBalloons, gameDuration }) {
     const randomColorsArray = Array.from({ length: Constants.gameCells }, () => {
         const randomIndex = Math.floor(Math.random() * Constants.colors.length);
         return Constants.colors[randomIndex];
+    });
+
+    const indexesOfForbiddenColors = [];
+    randomColorsArray.forEach((color, index) => {
+        if (Constants.forbiddenColors.includes(color)) {
+            indexesOfForbiddenColors.push(index);
+        }
     });
 
     const [gameState, setGameState] = useState({
@@ -24,9 +30,9 @@ export default function Game({ numberOfBalloons, gameDuration }) {
         score: 0,
         transitioning: false,
         transitionalActiveBalloons: [],
-
-        // set up a new state var array for each balloon color
         balloonColors: randomColorsArray,
+
+        forbiddenColorsPositions: indexesOfForbiddenColors
     });
 
     const intervalIdsRef = useRef([]);
@@ -89,9 +95,17 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                             return color;
                         });
 
+                        const indexesOfForbiddenColors = [];
+                        newColors.forEach((color, index) => {
+                            if (Constants.forbiddenColors.includes(color)) {
+                                indexesOfForbiddenColors.push(index);
+                            }
+                        });
+
                         return {
                             ...prevState,
                             balloonColors: newColors,
+                            forbiddenColorsPositions: indexesOfForbiddenColors
                         }
 
                     });
@@ -260,7 +274,6 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 zIndex: 1,
                 fontSize: '0.7em',
                 color: '#000000',
-                pointerEvents: 'none',
                 }}>
                 <h3>State Vars</h3>
                 gameStarted: {gameState.gameStarted.toString()}<br />
@@ -273,8 +286,10 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 transitionalActiveBalloons: {gameState.transitionalActiveBalloons.toString()}<br />
                 transitioning: {gameState.transitioning.toString()}<br />
                 balloonColors: {gameState.balloonColors.toString()}<br />
+                forbiddenColorsPositions: {gameState.forbiddenColorsPositions.toString()}<br />
             </div>
-
+            
+            
             <div>
                 {Constants.colors.map((color, index) => (
                 <div
