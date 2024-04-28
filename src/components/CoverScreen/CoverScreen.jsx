@@ -7,7 +7,8 @@ export default function CoverScreen({
     gameStarted, 
     score,
     coverScreenTransition,
-    coverScreenTopPosition
+    coverScreenTopPosition,
+    fatality
 }) {
     return (
         <div className={`
@@ -22,6 +23,11 @@ export default function CoverScreen({
                 {score > 0 && (
                     <p>
                         You popped {score} {score > 1 ? 'balloons' : 'balloon'}.
+                    </p>
+                )}
+                {fatality && (
+                    <p>
+                        WHY DID YOU POP THE WRONG COLOR?
                     </p>
                 )}
                 <p>

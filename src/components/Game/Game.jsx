@@ -115,7 +115,15 @@ export default function Game({ numberOfBalloons, gameDuration }) {
     const transitionAuxiliarTimerRef = useRef(null);
 
     const handleBalloonClick = (index) => {
-        if (
+        if (gameState.forbiddenColorPositions.includes(index)) {
+            setGameState(function(prevState) {
+                return {
+                    ...prevState,
+                    timeRemaining: 0,
+                    forbiddenColorPositions: [666] // Number of the beast!
+                };
+            });
+        } else if (
             gameState.activeBalloons.includes(index)
             ||
             gameState.transitionalActiveBalloons.includes(index)
@@ -165,7 +173,8 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                         return {
                             ...prevState,
                             gameScreenStartTransition: false,
-                            score: 0
+                            score: 0,
+                            forbiddenColorPositions: [] // clear forbiddenColorPositions
                         }
                     });
 
@@ -223,6 +232,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                     gameStarted={gameState.gameStarted}
                     coverScreenTopPosition={gameState.coverScreenTopPosition}
                     score={gameState.score}
+                    fatality={gameState.forbiddenColorPositions.includes(666)}
                 />
             :''}
 
@@ -244,7 +254,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                     balloonColors={gameState.balloonColors}
                 />
             :''}
-            
+            {/**/}
             <div style={{
                 position: 'fixed',
                 bottom: 0,
@@ -267,8 +277,8 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 balloonColors: {gameState.balloonColors.toString()}<br />
                 forbiddenColorPositions: {gameState.forbiddenColorPositions.toString()}<br />
             </div>
-            
-            
+            {/**/}
+            {/*
             <div>
                 {Constants.colors.map((color, index) => (
                 <div
@@ -284,7 +294,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 </div>
                 ))}
             </div>
-            
+            */}
         </div>
     );
 };

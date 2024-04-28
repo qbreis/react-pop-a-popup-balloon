@@ -54,7 +54,7 @@ export default function BalloonGrid(
             `}>
             <div className="game-header">
                 <p className="balloon-grid-caption">
-                    Click a balloon!
+                    Pop a balloon!
                 </p>
 
                 {/* New GameScore component */}

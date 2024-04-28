@@ -102,6 +102,70 @@ export default function Game({ numberOfBalloons, gameDuration }) {
 [...]
 ```
 
+Now in order to stop the game when you click any of forbidden balloons, in `src/components/Game/Game.jsx`:
+
+```js
+[...]
+    const handleBalloonClick = (index) => {
+        if (gameState.forbiddenColorPositions.includes(index)) {
+            setGameState(function(prevState) {
+                return {
+                    ...prevState,
+                    timeRemaining: 0,
+                    forbiddenColorPositions: [666] // Number of the beast!
+                };
+            });
+        } else if (
+            gameState.activeBalloons.includes(index)
+            ||
+            gameState.transitionalActiveBalloons.includes(index)
+        ) {
+[...]
+        transitionAuxiliarTimerRef.current = setTimeout(
+            function() {
+                if (start) {
+                    setGameState(function(prevState) {
+                        return {
+                            ...prevState,
+                            gameScreenStartTransition: false,
+                            score: 0,
+                            forbiddenColorPositions: [] // clear forbiddenColorPositions
+                        }
+                    });
+                } else {
+[...]
+    return (
+        <div className="game-container">
+            {(gameState.coverScreenTransition || !gameState.gameStarted) ?
+                <CoverScreen 
+[...]
+                    fatality={gameState.forbiddenColorsPositions.includes(666)}
+                />
+            :''}
+[...]
+```
+
+And then in `src/components/CoverScreen/CoverScreen.jsx`:
+
+```js
+[...]
+export default function CoverScreen({
+[...]
+    fatality
+}) {
+[...]
+            <div style={{zIndex: 1}}>
+                <h1>{score ? 'Game over' : 'Pop a Balloon Game'}</h1>
+                {score > 0 && (
+                    <p>You popped {score} {score > 1 ? 'balloons' : 'balloon'}.</p>
+                )}
+                {fatality && (
+                    <p>WHY DID YOU POP THE WRONG COLOR?</p>
+                )}
+                <p>A basic balloon game built with React.</p>
+[...]
+```
+
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
