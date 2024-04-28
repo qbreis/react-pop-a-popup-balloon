@@ -2,35 +2,33 @@ import "./CoverScreen.css";
 import Button from "../Button/Button";
 import Balloon from "../Balloon/Balloon";
 
-export default function CoverScreen({onStartGame, gameStarted, coverScreenTransition
-
-
-
-    ,coverScreenTopPosition
-
-
-
-
+export default function CoverScreen({
+    onStartGame, 
+    gameStarted, 
+    score,
+    coverScreenTransition,
+    coverScreenTopPosition
 }) {
     return (
         <div className={`
             intro
-            ${(
-                gameStarted
-                ||
-                // Assign `gameStarted` as a class name to `intro` (or not) depending also on `coverScreenTopPosition` value.
-                coverScreenTopPosition 
-            ) ? 'gameStarted' : ''}
+            ${(gameStarted || coverScreenTopPosition) ? 'gameStarted' : ''}
             ${coverScreenTransition ? 'coverScreenTransition' : ''}
         `}>
-            {/* Add inline CSS directly to the HTML element to set z-index property */}
             <div style={{zIndex: 1}}>
-                <h1>Pop a Balloon Game</h1>
+                <h1>
+                    {score ? 'Game over' : 'Pop a Balloon Game'}
+                </h1>
+                {score > 0 && (
+                    <p>
+                        You popped {score} {score > 1 ? 'balloons' : 'balloon'}.
+                    </p>
+                )}
                 <p>
                     A basic balloon game built with React.
                 </p>
                 <Button onClick={onStartGame}>
-                    Start Game
+                    {score > 0 ? 'Play again' : 'Start Game'}
                 </Button>
                 <p>
                     Source code and content are available on&nbsp;

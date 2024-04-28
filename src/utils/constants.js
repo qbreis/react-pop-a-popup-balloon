@@ -1,14 +1,14 @@
 const constants = {
-    gameDuration: 1000000,//10, // seconds
+    gameDuration: 10, // seconds
     gameCells: 6,
     gameTimeDelay: 10, // milliseconds
     balloonTogglingRandomnessLimits: { 
-        upper: 4000,//3000, // milliseconds
-        lower: 4000,//1000, // milliseconds
+        upper: 700, // milliseconds
+        lower: 200, // milliseconds
     },
-    balloonToggleTransition: 2000,//350, // milliseconds
-    balloonPoppingTransition: 2000,//350, // milliseconds
-    coinCounterDelay: 1000,//700,
+    balloonToggleTransition: 350, // milliseconds
+    balloonPoppingTransition: 350, // milliseconds
+    coinCounterDelay: 700, // milliseconds
 };
 
 export default constants;
