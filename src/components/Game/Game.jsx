@@ -54,15 +54,18 @@ export default function Game({
                 intervalIdsRef.current.push(intervalId);
             }
 
-            const transitionTimeout = setTimeout(() => {
-                //clearIntervals(); // Clear old intervals
-                setGameState(prevState => ({
-                    ...prevState,
-                    transitioning: false,
-                    //transitionalActiveBalloons: [],
-                    transitionalActiveBalloons: prevState.activeBalloons, // Save the copy
-                }));
-            }, Constants.balloonToggleTransition);
+            const transitionTimeout = setTimeout(
+                () => {
+                    //clearIntervals(); // Clear old intervals
+                    setGameState(prevState => ({
+                        ...prevState,
+                        transitioning: false,
+                        //transitionalActiveBalloons: [],
+                        transitionalActiveBalloons: prevState.activeBalloons, // Save the copy
+                    }));
+                }, 
+                Constants.balloonToggleTransition
+            );
 
             return () => {
                 clearIntervals(); 
@@ -78,7 +81,11 @@ export default function Game({
 
     const handleBalloonClick = (index) => {
         console.log(`balloon ${index} clicked!!!`);
-        if (gameState.activeBalloons.includes(index)) {
+        if (
+            gameState.activeBalloons.includes(index)
+            ||
+            gameState.transitionalActiveBalloons.includes(index)
+        ) {
             console.log(`SCORE THIS!!! and gameState.activeBalloons ${gameState.activeBalloons.toString()}`);
 
             // Remove the clicked balloon from the activeBalloons array

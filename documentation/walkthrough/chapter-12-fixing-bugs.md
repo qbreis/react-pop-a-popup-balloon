@@ -134,6 +134,18 @@ export default function Game({
 [...]
 ```
 
+Now when balloons are disappearing I have active ballons in `activeBalloons` and the ones disappearing in `transitionalActiveBalloons` so it is time to check if popping balloon is in any of those state arrays, in `src/components/Game/Game.jsx`:
+
+```js
+[...]
+if (
+    gameState.activeBalloons.includes(index) // if it is in activeBalloons
+    ||
+    gameState.transitionalActiveBalloons.includes(index) // or if it is in transitionalActiveBalloons
+) {
+[...]
+```
+
 ## Reference links
 
 - [React Pop a Popup Balloon](https://github.com/qbreis/react-pop-a-popup-balloon/) - Link to this GitHub repo.
