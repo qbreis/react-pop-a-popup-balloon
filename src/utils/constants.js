@@ -3,8 +3,8 @@ const constants = {
     gameCells: 6,
     gameTimeDelay: 10, // milliseconds
     balloonTogglingRandomnessLimits: { 
-        upper: 3000, // milliseconds
-        lower: 1000, // milliseconds
+        upper: 700, // milliseconds
+        lower: 200, // milliseconds
     },
     balloonToggleTransition: 350, // milliseconds
     balloonPoppingTransition: 350, // milliseconds

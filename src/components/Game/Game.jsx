@@ -178,9 +178,7 @@ export default function Game({
                 clearTimeout(transitionAuxiliarTimerRefValue);
             };
         }
-    }, [gameState.gameStarted, gameState.timeRemaining, 
-        handleGameToggle
-    ]);
+    }, [gameState.gameStarted, gameState.timeRemaining, handleGameToggle]);
 
     return (
         <div className="game-container">
@@ -210,7 +208,7 @@ export default function Game({
                     coinCounterDelay={Constants.coinCounterDelay}
                 />
             :''}
-            {/*
+            
             <div style={{
                 position: 'fixed',
                 bottom: 0,
@@ -231,7 +229,7 @@ export default function Game({
                 transitionalActiveBalloons: {gameState.transitionalActiveBalloons.toString()}<br />
                 transitioning: {gameState.transitioning.toString()}<br />
             </div>
-            */}
+            
         </div>
     );
 };
