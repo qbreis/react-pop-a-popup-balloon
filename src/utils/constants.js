@@ -8,7 +8,7 @@ const constants = {
     },
     balloonToggleTransition: 350, // milliseconds
     balloonPoppingTransition: 350, // milliseconds
-    coinCounterDelay: 700,
+    coinCounterDelay: 700, // milliseconds
 };
 
 export default constants;
