@@ -254,7 +254,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                     balloonColors={gameState.balloonColors}
                 />
             :''}
-            {/**/}
+            {/*
             <div style={{
                 position: 'fixed',
                 bottom: 0,
@@ -277,7 +277,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 balloonColors: {gameState.balloonColors.toString()}<br />
                 forbiddenColorPositions: {gameState.forbiddenColorPositions.toString()}<br />
             </div>
-            {/**/}
+            */}
             {/*
             <div>
                 {Constants.colors.map((color, index) => (
