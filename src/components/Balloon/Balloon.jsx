@@ -70,8 +70,6 @@ export default function Balloon({
             {(isPopped && !isActive) ?
                 <CoinCounter coinCounterDelay={coinCounterDelay} />
             :''}
-            isPopped {isPopped.toString()}<br />
-            isActive {isActive.toString()}<br />
             <div className="balloon-wrapper">
                 <div 
                     className={isPopped ? 'balloon--popping' : ''}
