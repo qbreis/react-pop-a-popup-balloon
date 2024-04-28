@@ -60,6 +60,42 @@ export default function Game({ numberOfBalloons, gameDuration }) {
 
             const transitionTimeout = setTimeout(
                 () => {
+                    setGameState(prevState => {
+                        /*
+                        Having:
+                        gameState.activeBalloons = [ 1, 3 ]
+                        and
+                        Constants.gameCells: 6
+
+                        I want to have [0, 2, 4, 5]
+                        ... that is, all indexes until 6 which are not in activeBalloons array
+                        */
+
+                        // Generate an array of all indexes until Constants.gameCells
+                        const allIndexes = Array.from({ length: Constants.gameCells }, (_, index) => index);
+
+                        // Filter out indexes that are present in gameState.activeBalloons
+                        const indexesNotInActiveBalloons = allIndexes.filter(
+                            index => !gameState.activeBalloons.includes(index)
+                        );
+
+                        /*
+                        Now I want to change index 0, 2, 4, 5 (in previous indexesNotInActiveBalloons array) in gameState.balloonColors
+                        */
+                        const newColors = prevState.balloonColors.map((color, index) => {
+                            if (indexesNotInActiveBalloons.includes(index)) {
+                                return Constants.colors[Math.floor(Math.random() * Constants.colors.length)];
+                            }
+                            return color;
+                        });
+
+                        return {
+                            ...prevState,
+                            balloonColors: newColors,
+                        }
+
+                    });
+
                     setGameState(prevState => ({
                         ...prevState,
                         transitioning: false,
@@ -74,8 +110,12 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 clearTimeout(transitionTimeout);
             };
         }
-    }, [numberOfBalloons, gameState.gameStarted, 
+    }, [
+        numberOfBalloons, 
+        gameState.gameStarted, 
         gameState.activeBalloons,
+        gameState.colors,
+        gameState.transitionalActiveBalloons,
     ]);
 
     const transitionTimerRef = useRef(null);
@@ -219,7 +259,8 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 backgroundColor: 'rgba(255, 255, 255, .8)',
                 zIndex: 1,
                 fontSize: '0.7em',
-                color: '#000000'
+                color: '#000000',
+                pointerEvents: 'none',
                 }}>
                 <h3>State Vars</h3>
                 gameStarted: {gameState.gameStarted.toString()}<br />
@@ -232,6 +273,22 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 transitionalActiveBalloons: {gameState.transitionalActiveBalloons.toString()}<br />
                 transitioning: {gameState.transitioning.toString()}<br />
                 balloonColors: {gameState.balloonColors.toString()}<br />
+            </div>
+
+            <div>
+                {Constants.colors.map((color, index) => (
+                <div
+                    key={index}
+                    style={{
+                    backgroundColor: color,
+                    padding: '5px',
+                    margin: '5px',
+                    borderRadius: '5px'
+                    }}
+                >
+                    {color}
+                </div>
+                ))}
             </div>
             
         </div>
