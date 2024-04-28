@@ -80,26 +80,17 @@ export default function Game({
     const transitionAuxiliarTimerRef = useRef(null);
 
     const handleBalloonClick = (index) => {
-        console.log(`balloon ${index} clicked!!!`);
         if (
             gameState.activeBalloons.includes(index)
             ||
             gameState.transitionalActiveBalloons.includes(index)
         ) {
-            console.log(`SCORE THIS!!! and gameState.activeBalloons ${gameState.activeBalloons.toString()}`);
-
-            // Remove the clicked balloon from the activeBalloons array
             const newActiveBalloons = gameState.activeBalloons.filter(balloonIndex => balloonIndex !== index);
-            
             setGameState(prevState => ({
                 ...prevState,
-                activeBalloons: newActiveBalloons, // Update the gameState with the new activeBalloons array
-                score: prevState.score + 1 // updates score game state variable
+                activeBalloons: newActiveBalloons,
+                score: prevState.score + 1
             }));
-
-        } else {
-            console.log('FAIL');
-            console.log(`gameState.activeBalloons ${gameState.activeBalloons.toString()}`);
         }
     };
 
@@ -139,7 +130,6 @@ export default function Game({
                         return {
                             ...prevState,
                             gameScreenStartTransition: false,
-                            // Reset game score
                             score: 0
                         }
                     });
@@ -150,7 +140,6 @@ export default function Game({
                         return {
                             ...prevState,
                             coverScreenTopPosition: false,
-                            // Reset activeBalloons
                             activeBalloons: [],
                             transitionalActiveBalloons: [],
                             transitioning: false
@@ -164,7 +153,6 @@ export default function Game({
     useEffect(function() {
         const transitionTimerRefValue = transitionTimerRef.current;
         const transitionAuxiliarTimerRefValue = transitionAuxiliarTimerRef.current;
-
         if (gameState.gameStarted) {
             const gameTimeInterval = setInterval(
                 function() {
@@ -181,7 +169,6 @@ export default function Game({
                 }, 
                 Constants.gameTimeDelay
             );
-
             return function() {
                 clearInterval(gameTimeInterval);
             };
@@ -223,7 +210,7 @@ export default function Game({
                     coinCounterDelay={Constants.coinCounterDelay}
                 />
             :''}
-
+            {/*
             <div style={{
                 position: 'fixed',
                 bottom: 0,
@@ -244,6 +231,7 @@ export default function Game({
                 transitionalActiveBalloons: {gameState.transitionalActiveBalloons.toString()}<br />
                 transitioning: {gameState.transitioning.toString()}<br />
             </div>
+            */}
         </div>
     );
 };
