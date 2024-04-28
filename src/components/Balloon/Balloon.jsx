@@ -15,7 +15,7 @@ export default function Balloon({
     const [timeoutId, setTimeoutId] = useState(null); // To control timeout clearing
 
     const clickHandler = () => {
-        if (!isPopped) {
+        if (!isPopped && isActive) {
             setIsPopped(true);
 
             if(onClick) {
