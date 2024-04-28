@@ -23,6 +23,8 @@ const constants = {
 export default constants;
 ```
 
+## Balloons disappearing doesn't score
+
 Now I can see what is happening, when balloons are toggling, `activeBalloons` are updated and then transition effect starts for the balloon to swipe down and dissapear, when I clck the balloon meanwhile the transition, the balloon index is not anymore in `activeBalloons` and thus it does not score.
 
 My idea is, first, setting one state variable to know if this transition is happening and secondly, setting another state variable to have one copy of the active balloons before they change.
@@ -143,6 +145,19 @@ if (
     ||
     gameState.transitionalActiveBalloons.includes(index) // or if it is in transitionalActiveBalloons
 ) {
+[...]
+```
+
+## Popping empty balloon
+
+Now I want to fix a very stupid bug, and this is clicking on an empty balloon, though it doesn't score it shown coin counter.
+
+In `src/components/Balloon/Balloon.jsx`:
+
+```js
+[...]
+const clickHandler = () => {
+    if (!isPopped && isActive) {
 [...]
 ```
 

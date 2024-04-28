@@ -15,7 +15,7 @@ export default function Balloon({
     const [timeoutId, setTimeoutId] = useState(null); // To control timeout clearing
 
     const clickHandler = () => {
-        if (!isPopped) {
+        if (!isPopped && isActive) {
             setIsPopped(true);
 
             if(onClick) {
@@ -70,6 +70,8 @@ export default function Balloon({
             {(isPopped && !isActive) ?
                 <CoinCounter coinCounterDelay={coinCounterDelay} />
             :''}
+            isPopped {isPopped.toString()}<br />
+            isActive {isActive.toString()}<br />
             <div className="balloon-wrapper">
                 <div 
                     className={isPopped ? 'balloon--popping' : ''}
