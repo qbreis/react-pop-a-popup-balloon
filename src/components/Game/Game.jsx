@@ -6,19 +6,24 @@ import getRandomNumber from "../../utils/randomNumber";
 
 import "./Game.css";
 
-export default function Game({ numberOfBalloons, gameDuration }) {
-
-    const randomColorsArray = Array.from({ length: Constants.gameCells }, () => {
+function generateRandomColorsArray() {
+    return Array.from({ length: Constants.gameCells }, () => {
         const randomIndex = Math.floor(Math.random() * Constants.colors.length);
         return Constants.colors[randomIndex];
     });
+}
 
+function calculateForbiddenColorPositions(colorsArray) {
     const indexesOfForbiddenColors = [];
-    randomColorsArray.forEach((color, index) => {
+    colorsArray.forEach((color, index) => {
         if (Constants.forbiddenColors.includes(color)) {
             indexesOfForbiddenColors.push(index);
         }
     });
+    return indexesOfForbiddenColors;
+}
+
+export default function Game({ numberOfBalloons, gameDuration }) {
 
     const [gameState, setGameState] = useState({
         gameStarted: false,
@@ -30,9 +35,9 @@ export default function Game({ numberOfBalloons, gameDuration }) {
         score: 0,
         transitioning: false,
         transitionalActiveBalloons: [],
-        balloonColors: randomColorsArray,
+        balloonColors: generateRandomColorsArray(),
 
-        forbiddenColorsPositions: indexesOfForbiddenColors
+        forbiddenColorPositions: []
     });
 
     const intervalIdsRef = useRef([]);
@@ -67,47 +72,21 @@ export default function Game({ numberOfBalloons, gameDuration }) {
             const transitionTimeout = setTimeout(
                 () => {
                     setGameState(prevState => {
-                        /*
-                        Having:
-                        gameState.activeBalloons = [ 1, 3 ]
-                        and
-                        Constants.gameCells: 6
-
-                        I want to have [0, 2, 4, 5]
-                        ... that is, all indexes until 6 which are not in activeBalloons array
-                        */
-
-                        // Generate an array of all indexes until Constants.gameCells
                         const allIndexes = Array.from({ length: Constants.gameCells }, (_, index) => index);
-
-                        // Filter out indexes that are present in gameState.activeBalloons
                         const indexesNotInActiveBalloons = allIndexes.filter(
                             index => !gameState.activeBalloons.includes(index)
                         );
-
-                        /*
-                        Now I want to change index 0, 2, 4, 5 (in previous indexesNotInActiveBalloons array) in gameState.balloonColors
-                        */
                         const newColors = prevState.balloonColors.map((color, index) => {
                             if (indexesNotInActiveBalloons.includes(index)) {
                                 return Constants.colors[Math.floor(Math.random() * Constants.colors.length)];
                             }
                             return color;
                         });
-
-                        const indexesOfForbiddenColors = [];
-                        newColors.forEach((color, index) => {
-                            if (Constants.forbiddenColors.includes(color)) {
-                                indexesOfForbiddenColors.push(index);
-                            }
-                        });
-
                         return {
                             ...prevState,
                             balloonColors: newColors,
-                            forbiddenColorsPositions: indexesOfForbiddenColors
+                            forbiddenColorPositions: calculateForbiddenColorPositions(newColors)
                         }
-
                     });
 
                     setGameState(prevState => ({
@@ -286,7 +265,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 transitionalActiveBalloons: {gameState.transitionalActiveBalloons.toString()}<br />
                 transitioning: {gameState.transitioning.toString()}<br />
                 balloonColors: {gameState.balloonColors.toString()}<br />
-                forbiddenColorsPositions: {gameState.forbiddenColorsPositions.toString()}<br />
+                forbiddenColorPositions: {gameState.forbiddenColorPositions.toString()}<br />
             </div>
             
             
