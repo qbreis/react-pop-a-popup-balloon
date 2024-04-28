@@ -2,16 +2,18 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import CoverScreen from '../CoverScreen/CoverScreen';
 import BalloonGrid from '../BalloonGrid/BalloonGrid';
 import Constants from "../../utils/constants";
-
-// I import getRandomNumber from utils/randomNumber
 import getRandomNumber from "../../utils/randomNumber";
+//import getRandomColor from "../../utils/randomColor";
 
 import "./Game.css";
 
-export default function Game({
-    numberOfBalloons,
-    gameDuration
-}) {
+export default function Game({ numberOfBalloons, gameDuration }) {
+
+    const randomColorsArray = Array.from({ length: Constants.gameCells }, () => {
+        const randomIndex = Math.floor(Math.random() * Constants.colors.length);
+        return Constants.colors[randomIndex];
+    });
+
     const [gameState, setGameState] = useState({
         gameStarted: false,
         coverScreenTransition: false,
@@ -20,9 +22,11 @@ export default function Game({
         timeRemaining: 0, // milliseconds
         activeBalloons: [],
         score: 0,
-
         transitioning: false,
         transitionalActiveBalloons: [],
+
+        // set up a new state var array for each balloon color
+        balloonColors: randomColorsArray,
     });
 
     const intervalIdsRef = useRef([]);
@@ -38,7 +42,7 @@ export default function Game({
                     return {
                         ...prevState,
                         activeBalloons: newActiveBalloons,
-                        transitioning: true, // Flag to indicate transition
+                        transitioning: true,
                     };
                 });
             };
@@ -56,12 +60,46 @@ export default function Game({
 
             const transitionTimeout = setTimeout(
                 () => {
-                    //clearIntervals(); // Clear old intervals
+                    setGameState(prevState => {
+                        /*
+                        Having:
+                        gameState.activeBalloons = [ 1, 3 ]
+                        and
+                        Constants.gameCells: 6
+
+                        I want to have [0, 2, 4, 5]
+                        ... that is, all indexes until 6 which are not in activeBalloons array
+                        */
+
+                        // Generate an array of all indexes until Constants.gameCells
+                        const allIndexes = Array.from({ length: Constants.gameCells }, (_, index) => index);
+
+                        // Filter out indexes that are present in gameState.activeBalloons
+                        const indexesNotInActiveBalloons = allIndexes.filter(
+                            index => !gameState.activeBalloons.includes(index)
+                        );
+
+                        /*
+                        Now I want to change index 0, 2, 4, 5 (in previous indexesNotInActiveBalloons array) in gameState.balloonColors
+                        */
+                        const newColors = prevState.balloonColors.map((color, index) => {
+                            if (indexesNotInActiveBalloons.includes(index)) {
+                                return Constants.colors[Math.floor(Math.random() * Constants.colors.length)];
+                            }
+                            return color;
+                        });
+
+                        return {
+                            ...prevState,
+                            balloonColors: newColors,
+                        }
+
+                    });
+
                     setGameState(prevState => ({
                         ...prevState,
                         transitioning: false,
-                        //transitionalActiveBalloons: [],
-                        transitionalActiveBalloons: prevState.activeBalloons, // Save the copy
+                        transitionalActiveBalloons: prevState.activeBalloons,
                     }));
                 }, 
                 Constants.balloonToggleTransition
@@ -72,8 +110,12 @@ export default function Game({
                 clearTimeout(transitionTimeout);
             };
         }
-    }, [numberOfBalloons, gameState.gameStarted, 
+    }, [
+        numberOfBalloons, 
+        gameState.gameStarted, 
         gameState.activeBalloons,
+        gameState.colors,
+        gameState.transitionalActiveBalloons,
     ]);
 
     const transitionTimerRef = useRef(null);
@@ -106,7 +148,7 @@ export default function Game({
                 coverScreenTransition: start,
                 gameScreenStartTransition: true,
                 coverScreenTopPosition: !start,
-                timeRemaining: start ? gameDuration : 0
+                timeRemaining: start ? gameDuration : 0,
             };
         });
 
@@ -206,6 +248,7 @@ export default function Game({
                     balloonToggleTransition={Constants.balloonToggleTransition}
                     balloonPoppingTransition={Constants.balloonPoppingTransition}
                     coinCounterDelay={Constants.coinCounterDelay}
+                    balloonColors={gameState.balloonColors}
                 />
             :''}
             
@@ -216,7 +259,8 @@ export default function Game({
                 backgroundColor: 'rgba(255, 255, 255, .8)',
                 zIndex: 1,
                 fontSize: '0.7em',
-                color: '#000000'
+                color: '#000000',
+                pointerEvents: 'none',
                 }}>
                 <h3>State Vars</h3>
                 gameStarted: {gameState.gameStarted.toString()}<br />
@@ -228,6 +272,23 @@ export default function Game({
                 score: {gameState.score.toString()}<br />
                 transitionalActiveBalloons: {gameState.transitionalActiveBalloons.toString()}<br />
                 transitioning: {gameState.transitioning.toString()}<br />
+                balloonColors: {gameState.balloonColors.toString()}<br />
+            </div>
+
+            <div>
+                {Constants.colors.map((color, index) => (
+                <div
+                    key={index}
+                    style={{
+                    backgroundColor: color,
+                    padding: '5px',
+                    margin: '5px',
+                    borderRadius: '5px'
+                    }}
+                >
+                    {color}
+                </div>
+                ))}
             </div>
             
         </div>

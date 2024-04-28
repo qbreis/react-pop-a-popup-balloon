@@ -21,12 +21,6 @@ export default function Balloon({
             if(onClick) {
                 onClick();
             }
-        
-            /*
-            setTimeout(() => {
-                setIsPopped(false);
-            }, 1000);
-            */
             const id = setTimeout(
                 () => 
                 {
@@ -34,7 +28,6 @@ export default function Balloon({
                 }, 
                 coinCounterDelay
             );
-            
             setTimeoutId(id);
         }
     };
@@ -46,7 +39,6 @@ export default function Balloon({
             }
         };
     }, [timeoutId]);
-
 
     const classNames = `
         balloon 
