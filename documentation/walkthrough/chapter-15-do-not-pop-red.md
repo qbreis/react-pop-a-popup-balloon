@@ -129,7 +129,7 @@ Now in order to stop the game when you click any of forbidden balloons, in `src/
                             ...prevState,
                             gameScreenStartTransition: false,
                             score: 0,
-                            forbiddenColorPositions: [] // clear forbiddenColorPositions
+                            // forbiddenColorPositions: [] // clear forbiddenColorPositions
                         }
                     });
                 } else {

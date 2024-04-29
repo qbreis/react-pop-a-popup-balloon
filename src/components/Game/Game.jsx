@@ -120,7 +120,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                 return {
                     ...prevState,
                     timeRemaining: 0,
-                    forbiddenColorPositions: [666] // Number of the beast!
+                    // forbiddenColorPositions: [666] // Number of the beast!
                 };
             });
         } else if (
@@ -174,7 +174,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                             ...prevState,
                             gameScreenStartTransition: false,
                             score: 0,
-                            forbiddenColorPositions: [] // clear forbiddenColorPositions
+                            // forbiddenColorPositions: [] // clear forbiddenColorPositions
                         }
                     });
 
@@ -232,7 +232,7 @@ export default function Game({ numberOfBalloons, gameDuration }) {
                     gameStarted={gameState.gameStarted}
                     coverScreenTopPosition={gameState.coverScreenTopPosition}
                     score={gameState.score}
-                    fatality={gameState.forbiddenColorPositions.includes(666)}
+                    // fatality={gameState.forbiddenColorPositions.includes(666)}
                 />
             :''}
 
